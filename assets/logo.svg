@@ -1,0 +1,16 @@
+<svg width="400" height="200" viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg">
+  <!-- 八边形外框 -->
+  <polygon points="200,30 290,30 350,80 350,140 290,190 200,190 110,190 50,140 50,80 110,30" fill="none" stroke="#1f61ab" stroke-width="2"/>
+  
+  <!-- 左侧白色三角形 -->
+  <polygon points="200,60 160,100 200,160" fill="white"/>
+  
+  <!-- 右侧蓝色三角形 -->
+  <polygon points="200,60 240,100 200,160" fill="#6cb3ff"/>
+  
+  <!-- 中文字体 -->
+  <text x="200" y="170" font-family="Arial, sans-serif" font-size="24" font-weight="bold" fill="white" text-anchor="middle">国泰海通证券</text>
+  
+  <!-- 英文字体 -->
+  <text x="200" y="195" font-family="Arial, sans-serif" font-size="12" fill="white" text-anchor="middle">GUO TAI HAITONG SECURITIES</text>
+</svg>
