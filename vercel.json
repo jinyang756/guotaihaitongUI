@@ -34,8 +34,30 @@
         {
           "key": "X-Frame-Options",
           "value": "DENY"
+        },
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    },
+    {
+      "source": "\/(.*\.png|.*\.jpg|.*\.jpeg|.*\.gif|.*\.svg|.*\.ico)",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "image/:extension"
+        },
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
         }
       ]
     }
-  ]
+  ],
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "static": {
+    "minify": false
+  }
 }
