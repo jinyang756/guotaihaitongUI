@@ -56,8 +56,5 @@
     }
   ],
   "cleanUrls": true,
-  "trailingSlash": false,
-  "static": {
-    "minify": false
-  }
+  "trailingSlash": false
 }
