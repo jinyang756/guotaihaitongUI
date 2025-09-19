@@ -226,20 +226,22 @@
                     
                     <!-- 轮播指示器 -->
                     <div class="absolute bottom-8 left-0 right-0 flex justify-center space-x-3">
-                        <button class="carousel-indicator w-3 h-3 rounded-full bg-white opacity-100 transition-opacity duration-300" onclick="showSlide(0)"></button>
-                        <button class="carousel-indicator w-3 h-3 rounded-full bg-white opacity-50 transition-opacity duration-300" onclick="showSlide(1)"></button>
+                        <button class="carousel-indicator w-3 h-3 rounded-full bg-white opacity-100 transition-opacity duration-300" data-slide="0"></button>
+                        <button class="carousel-indicator w-3 h-3 rounded-full bg-white opacity-50 transition-opacity duration-300" data-slide="1"></button>
                     </div>
                 </div>
                 
                 <!-- 轮播图文字内容覆盖层 -->
                 <div class="absolute inset-0 flex flex-col items-center justify-center text-center text-white px-4 z-10">
                     <div class="max-w-3xl">
-                        <h1 id="carousel-title-1" class="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 text-shadow opacity-100 transition-opacity duration-1000">
-                            证裕投资 证通裕达
-                        </h1>
-                        <h1 id="carousel-title-2" class="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 text-shadow opacity-0 transition-opacity duration-1000 absolute inset-0 flex items-center justify-center">
-                            笃志 精一 恒毅 担当
-                        </h1>
+                        <div class="carousel-titles">
+                            <h1 id="carousel-title-1" class="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 text-shadow">
+                                证裕投资 证通裕达
+                            </h1>
+                            <h1 id="carousel-title-2" class="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 text-shadow hidden">
+                                笃志 精一 恒毅 担当
+                            </h1>
+                        </div>
                         <p class="text-xl md:text-2xl mb-8 text-shadow">国泰君安证裕投资有限公司</p>
                         <a href="#about" class="inline-block bg-primary hover:bg-primary/90 text-white font-medium py-3 px-8 rounded-lg transition-colors shadow-lg">
                             查看详情
@@ -251,43 +253,54 @@
             
             <!-- 轮播图JavaScript -->
             <script>
-                let currentSlide = 0;
-                const slides = document.querySelectorAll('.carousel-slide');
-                const indicators = document.querySelectorAll('.carousel-indicator');
-                
-                // 自动轮播
-                function nextSlide() {
-                    currentSlide = (currentSlide + 1) % slides.length;
-                    showSlide(currentSlide);
-                }
-                
-                // 显示指定幻灯片
-                function showSlide(index) {
-                    slides.forEach((slide, i) => {
-                        slide.style.opacity = i === index ? '1' : '0';
-                    });
-                    
-                    // 更新指示器状态
-                    if (indicators.length > 0) {
-                        indicators.forEach((indicator, i) => {
-                            indicator.style.opacity = i === index ? '1' : '0.5';
-                        });
-                    }
-                    
-                    // 更新标题显示
+                document.addEventListener('DOMContentLoaded', function() {
+                    let currentSlide = 0;
+                    const slides = document.querySelectorAll('.carousel-slide');
+                    const indicators = document.querySelectorAll('.carousel-indicator');
                     const titles = document.querySelectorAll('[id^="carousel-title-"]');
-                    if (titles.length > 0) {
-                        titles.forEach((title, i) => {
-                            title.style.opacity = i === index ? '1' : '0';
-                            title.style.position = i === index ? 'static' : 'absolute';
-                        });
-                    }
                     
-                    currentSlide = index;
-                }
-                
-                // 设置自动轮播
-                setInterval(nextSlide, 5000);
+                    // 初始化轮播
+                    if (slides.length > 0) {
+                        // 为指示器添加点击事件
+                        indicators.forEach((indicator, index) => {
+                            indicator.addEventListener('click', () => showSlide(index));
+                        });
+                        
+                        // 自动轮播
+                        function nextSlide() {
+                            currentSlide = (currentSlide + 1) % slides.length;
+                            showSlide(currentSlide);
+                        }
+                        
+                        // 显示指定幻灯片
+                        function showSlide(index) {
+                            // 检查幻灯片是否存在
+                            if (!slides[index]) return;
+                            
+                            // 更新幻灯片显示
+                            slides.forEach((slide, i) => {
+                                slide.style.opacity = i === index ? '1' : '0';
+                            });
+                            
+                            // 更新指示器状态
+                            indicators.forEach((indicator, i) => {
+                                indicator.style.opacity = i === index ? '1' : '0.5';
+                            });
+                            
+                            // 更新标题显示
+                            titles.forEach((title, i) => {
+                                title.classList.toggle('hidden', i !== index);
+                            });
+                            
+                            currentSlide = index;
+                        }
+                        
+                        // 设置自动轮播
+                        setInterval(nextSlide, 5000);
+                    } else {
+                        console.log('没有找到轮播图幻灯片');
+                    }
+                });
             </script>
             
             <!-- 公司简介 -->
