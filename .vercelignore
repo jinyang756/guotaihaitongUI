@@ -1,0 +1,19 @@
+# Vercel ignore file
+# https://vercel.com/docs/concepts/projects/overview#vercelignore
+
+# Ignore dependencies
+node_modules/
+
+# Ignore build output
+dist/
+
+# Ignore IDE and OS files
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Ignore sensitive files
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
