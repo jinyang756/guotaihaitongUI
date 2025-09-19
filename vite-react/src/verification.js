@@ -1,5 +1,8 @@
 // 验证逻辑
+console.log('Verification script loaded');
+
 function initVerification() {
+  console.log('Initializing verification overlay');
   // 创建验证覆盖层
   const verificationOverlay = document.createElement('div');
   verificationOverlay.id = 'verification-overlay';
@@ -401,8 +404,11 @@ function initVerification() {
 }
 
 // 页面加载完成后初始化验证
+console.log('Checking document ready state:', document.readyState);
 if (document.readyState === 'loading') {
+  console.log('Waiting for DOMContentLoaded event');
   document.addEventListener('DOMContentLoaded', initVerification);
 } else {
+  console.log('Document already loaded, initializing verification');
   initVerification();
 }
