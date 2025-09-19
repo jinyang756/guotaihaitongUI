@@ -14,5 +14,13 @@ export default defineConfig({
         main: './index.html'
       }
     }
-  }
+  },
+  // 配置静态资源路径解析
+  resolve: {
+    alias: {
+      '/image.png': '/image.png'
+    }
+  },
+  // 确保public目录下的资源可以正确访问
+  publicDir: 'public'
 })
