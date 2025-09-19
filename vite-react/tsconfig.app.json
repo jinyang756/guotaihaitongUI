@@ -8,8 +8,8 @@
     "module": "ESNext",
     "lib": ["ESNext", "DOM", "DOM.Iterable"],
     "allowJs": true,
-    "checkJs": true
+    "checkJs": false
   },
-  "include": ["src/verification.js"],
+  "include": ["src/**/*.js", "src/**/*.ts", "src/**/*.tsx"],
   "references": []
 }
