@@ -46,6 +46,8 @@ Thumbs.db
 
 # Vercel
 .vercel
+.vite-react/.vercel
 
 # Local server logs
 server.log
+vite-react/server.log
