@@ -1,13 +1,2082 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite + React + TS</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>国泰君安证裕投资有限公司</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#004B9D', // 深蓝色主色调，符合金融行业专业形象
+                        secondary: '#0062CC',
+                        accent: '#3B82F6',
+                        dark: '#111827',
+                        light: '#F9FAFB',
+                        gray: {
+                            100: '#F9FAFB',
+                            200: '#F3F4F6',
+                            300: '#E5E7EB',
+                            400: '#D1D5DB',
+                            500: '#9CA3AF',
+                            600: '#6B7280',
+                            700: '#4B5563',
+                            800: '#374151',
+                            900: '#1F2937',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Microsoft YaHei', 'PingFang SC', 'Hiragino Sans GB', 'Helvetica Neue', 'Arial', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .content-auto {
+                content-visibility: auto;
+            }
+            .text-shadow {
+                text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            }
+            .nav-item {
+                padding-left: 1.5rem;
+                padding-right: 1.5rem;
+                padding-top: 0.75rem;
+                padding-bottom: 0.75rem;
+                border-radius: 0.5rem;
+                transition-property: all;
+                transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+                transition-duration: 300ms;
+                cursor: pointer;
+            }
+            .nav-item:hover {
+                background-color: rgba(0, 75, 157, 0.05);
+                color: #004B9D;
+            }
+            .nav-item-active {
+                background-color: rgba(0, 75, 157, 0.1);
+                color: #004B9D;
+                font-weight: 500;
+            }
+            /* 自定义工具类 */
+            .date-badge {
+                background-color: var(--tw-color-primary);
+                color: white;
+                font-size: 0.875rem;
+                font-weight: 700;
+                padding: 0.5rem;
+                border-radius: 0.5rem;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                min-width: 56px;
+            }
+            .section-divider {
+                height: 1px;
+                background-color: #e5e7eb;
+                margin-top: 2rem;
+                margin-bottom: 2rem;
+            }
+            .card-border {
+                border-width: 1px;
+                border-color: #f3f4f6;
+                border-radius: 0.5rem;
+                overflow: hidden;
+            }
+            .flat-button {
+                background-color: var(--tw-color-primary);
+                color: white;
+                padding-top: 0.75rem;
+                padding-bottom: 0.75rem;
+                padding-left: 1.5rem;
+                padding-right: 1.5rem;
+                border-radius: 0.5rem;
+                font-weight: 500;
+                transition: color 150ms ease-in-out, background-color 150ms ease-in-out, border-color 150ms ease-in-out, box-shadow 150ms ease-in-out;
+            }
+            .flat-button:hover {
+                background-color: rgba(0, 75, 157, 0.9);
+            }
+            .flat-button:focus {
+                outline: 2px solid rgba(0, 75, 157, 0.5);
+                outline-offset: 2px;
+            }
+            .ghost-button {
+                border-width: 1px;
+                border-color: #d1d5db;
+                color: #374151;
+                padding-top: 0.5rem;
+                padding-bottom: 0.5rem;
+                padding-left: 1rem;
+                padding-right: 1rem;
+                border-radius: 0.5rem;
+                font-weight: 500;
+                transition: color 150ms ease-in-out, background-color 150ms ease-in-out, border-color 150ms ease-in-out, box-shadow 150ms ease-in-out;
+            }
+            .ghost-button:hover {
+                background-color: #f9fafb;
+            }
+        }
+    </style>
+    <script src="/src/verification.js" type="module"></script>
+</head>
+<body class="font-sans bg-white text-dark">
+    <!-- 导航栏 -->
+    <nav class="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-sm shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo -->
+                <div class="flex items-center space-x-4">
+                    <div class="flex items-center space-x-2">
+                        <img src="/logo.svg" alt="公司logo" class="h-10 w-16 object-contain">
+                        <span class="text-xl font-bold text-dark">国泰君安证裕投资</span>
+                    </div>
+                </div>
+                
+                <!-- 桌面端导航菜单 -->
+                <div class="hidden md:flex items-center space-x-2">
+                    <div onclick="showPage('home')" class="nav-item nav-item-active">
+                        首页
+                    </div>
+                    <div onclick="showPage('about')" class="nav-item">
+                        关于我们
+                    </div>
+                    <div onclick="showPage('business')" class="nav-item">
+                        公司业务
+                    </div>
+                    <div onclick="showPage('cases')" class="nav-item">
+                        投资案例
+                    </div>
+                    <div onclick="showPage('news')" class="nav-item">
+                        新闻动态
+                    </div>
+                    <div onclick="showPage('contact')" class="nav-item">
+                        联系我们
+                    </div>
+                    <div onclick="showPage('information')" class="nav-item">
+                        信息公示
+                    </div>
+                </div>
+                
+                <!-- 移动端菜单按钮 -->
+                <div class="md:hidden">
+                    <button onclick="toggleMobileMenu()" class="p-2 rounded-lg hover:bg-gray-100">
+                        菜单
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 移动端菜单 -->
+        <div id="mobileMenu" class="md:hidden hidden bg-white border-t">
+            <div class="px-4 py-2 space-y-1">
+                <div onclick="showPage('home'); toggleMobileMenu();" class="block px-4 py-2 hover:bg-gray-100">
+                    首页
+                </div>
+                <div onclick="showPage('about'); toggleMobileMenu();" class="block px-4 py-2 hover:bg-gray-100">
+                    关于我们
+                </div>
+                <div onclick="showPage('business'); toggleMobileMenu();" class="block px-4 py-2 hover:bg-gray-100">
+                    公司业务
+                </div>
+                <div onclick="showPage('cases'); toggleMobileMenu();" class="block px-4 py-2 hover:bg-gray-100">
+                    投资案例
+                </div>
+                <div onclick="showPage('news'); toggleMobileMenu();" class="block px-4 py-2 hover:bg-gray-100">
+                    新闻动态
+                </div>
+                <div onclick="showPage('contact'); toggleMobileMenu();" class="block px-4 py-2 hover:bg-gray-100">
+                    联系我们
+                </div>
+                <div onclick="showPage('information'); toggleMobileMenu();" class="block px-4 py-2 hover:bg-gray-100">
+                    信息公示
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 主内容区域 -->
+    <main class="pt-16">
+        <!-- 首页 -->
+        <div id="page-home" class="page-content">
+            <!-- 英雄区域 -->
+            <section class="relative flex items-center justify-center overflow-hidden" style="width: 100%; height: auto; min-height: 500px;">
+                <!-- 轮播图容器 -->
+                <div class="carousel-container absolute inset-0">
+                    <div class="carousel-slide absolute inset-0 transition-opacity duration-1000 ease-in-out opacity-100">
+                        <img src="/image.png" alt="轮播图1" 
+                             class="absolute inset-0 w-full h-full object-cover">
+                    </div>
+                    
+                    <div class="carousel-slide absolute inset-0 transition-opacity duration-1000 ease-in-out opacity-0">
+                        <img src="/image.png" alt="轮播图2" 
+                             class="absolute inset-0 w-full h-full object-cover">
+                    </div>
+                    
+                    <!-- 轮播指示器 -->
+                    <div class="absolute bottom-8 left-0 right-0 flex justify-center space-x-3">
+                        <button class="carousel-indicator w-3 h-3 rounded-full bg-white opacity-100 transition-opacity duration-300" onclick="showSlide(0)"></button>
+                        <button class="carousel-indicator w-3 h-3 rounded-full bg-white opacity-50 transition-opacity duration-300" onclick="showSlide(1)"></button>
+                    </div>
+                </div>
+                
+                <!-- 轮播图文字内容覆盖层 -->
+                <div class="absolute inset-0 flex flex-col items-center justify-center text-center text-white px-4 z-10">
+                    <div class="max-w-3xl">
+                        <h1 id="carousel-title-1" class="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 text-shadow opacity-100 transition-opacity duration-1000">
+                            证裕投资 证通裕达
+                        </h1>
+                        <h1 id="carousel-title-2" class="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 text-shadow opacity-0 transition-opacity duration-1000 absolute inset-0 flex items-center justify-center">
+                            笃志 精一 恒毅 担当
+                        </h1>
+                        <p class="text-xl md:text-2xl mb-8 text-shadow">国泰君安证裕投资有限公司</p>
+                        <a href="#about" class="inline-block bg-primary hover:bg-primary/90 text-white font-medium py-3 px-8 rounded-lg transition-colors shadow-lg">
+                            查看详情
+                        </a>
+                    </div>
+                </div>
+
+            </section>
+            
+            <!-- 轮播图JavaScript -->
+            <script>
+                let currentSlide = 0;
+                const slides = document.querySelectorAll('.carousel-slide');
+                const indicators = document.querySelectorAll('.carousel-indicator');
+                
+                // 自动轮播
+                function nextSlide() {
+                    currentSlide = (currentSlide + 1) % slides.length;
+                    showSlide(currentSlide);
+                }
+                
+                // 显示指定幻灯片
+                function showSlide(index) {
+                    slides.forEach((slide, i) => {
+                        slide.style.opacity = i === index ? '1' : '0';
+                    });
+                    
+                    // 更新指示器状态
+                    if (indicators.length > 0) {
+                        indicators.forEach((indicator, i) => {
+                            indicator.style.opacity = i === index ? '1' : '0.5';
+                        });
+                    }
+                    
+                    // 更新标题显示
+                    const titles = document.querySelectorAll('[id^="carousel-title-"]');
+                    if (titles.length > 0) {
+                        titles.forEach((title, i) => {
+                            title.style.opacity = i === index ? '1' : '0';
+                            title.style.position = i === index ? 'static' : 'absolute';
+                        });
+                    }
+                    
+                    currentSlide = index;
+                }
+                
+                // 设置自动轮播
+                setInterval(nextSlide, 5000);
+            </script>
+            
+            <!-- 公司简介 -->
+            <section class="py-20 bg-white">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                        <div>
+                            <h2 class="text-3xl font-bold mb-6 text-dark">公司简介</h2>
+                            <div class="h-1 w-20 bg-primary mb-8"></div>
+                            <p class="text-gray-600 mb-6 leading-relaxed">
+                                国泰君安证裕投资有限公司是国泰海通证券股份有限公司（证券代码：601211.SH，2611.HK；简称"国泰海通"）的全资子公司，
+                                依照相关法律法规及监管要求，从事股权投资、金融产品投资，以及经许可的其他投资业务。
+                            </p>
+                            <p class="text-gray-600 mb-8 leading-relaxed">
+                                证裕投资依托国泰海通品牌优势及雄厚的资本实力、领先的投研水平，运用自有资金开展投资，
+                                构建买方业务体系，提升国泰海通综合金融服务能力。
+                            </p>
+                            <div class="grid grid-cols-2 gap-6">
+                                <div class="text-center">
+                                    <div class="text-3xl font-bold text-primary mb-2">45亿元</div>
+                                    <div class="text-gray-600">注册资本</div>
+                                </div>
+                                <div class="text-center">
+                                    <div class="text-3xl font-bold text-primary mb-2">2018年</div>
+                                    <div class="text-gray-600">成立年份</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="relative">
+                            <img src="https://picsum.photos/id/1067/600/400" alt="公司办公环境" 
+                                 class="w-full h-96 object-cover rounded-lg shadow-xl">
+
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- 核心业务 -->
+            <section class="py-20 bg-gray-50">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="text-center mb-16">
+                        <h2 class="text-3xl font-bold mb-4 text-dark">核心业务</h2>
+                        <div class="h-1 w-20 bg-primary mx-auto mb-8"></div>
+                        <p class="text-gray-600 max-w-2xl mx-auto">
+                            专注于股权投资、私募股权基金投资、科创板跟投等业务，为客户提供专业的投资解决方案
+                        </p>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                        <div class="bg-white p-8 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2">
+                            <div class="w-16 h-16 bg-primary/10 rounded-lg flex items-center justify-center text-primary text-2xl mb-6">
+                                <i class="fa fa-bullseye"></i>
+                            </div>
+                            <h3 class="text-xl font-bold mb-4">股权投资</h3>
+                            <p class="text-gray-600 leading-relaxed">
+                                对优质企业进行直接股权投资，陪伴企业成长，分享企业价值提升带来的收益。
+                            </p>
+                        </div>
+                        
+                        <div class="bg-white p-8 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2">
+                            <div class="w-16 h-16 bg-secondary/10 rounded-lg flex items-center justify-center text-secondary text-2xl mb-6">
+                                <i class="fa fa-pie-chart"></i>
+                            </div>
+                            <h3 class="text-xl font-bold mb-4">基金投资</h3>
+                            <p class="text-gray-600 leading-relaxed">
+                                投资于优秀的私募股权基金，通过专业机构的管理实现资产的多元化配置。
+                            </p>
+                        </div>
+                        
+                        <div class="bg-white p-8 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2">
+                            <div class="w-16 h-16 bg-accent/10 rounded-lg flex items-center justify-center text-accent text-2xl mb-6">
+                                <i class="fa fa-rocket"></i>
+                            </div>
+                            <h3 class="text-xl font-bold mb-4">科创板跟投</h3>
+                            <p class="text-gray-600 leading-relaxed">
+                                参与科创板企业上市跟投，支持科技创新企业发展，获取投资收益。
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- 投资领域 -->
+            <section class="py-20 bg-white">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="text-center mb-16">
+                        <h2 class="text-3xl font-bold mb-4 text-dark">投资领域</h2>
+                        <div class="h-1 w-20 bg-primary mx-auto mb-8"></div>
+                        <p class="text-gray-600 max-w-2xl mx-auto">
+                            聚焦国家战略性新兴产业，重点投资高成长性企业
+                        </p>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                        <div class="text-center group">
+                            <div class="w-24 h-24 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full flex items-center justify-center text-white text-3xl mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
+                                <i class="fa fa-microchip"></i>
+                            </div>
+                            <h3 class="text-lg font-semibold mb-2">集成电路</h3>
+                            <p class="text-gray-600 text-sm">半导体设计、制造、封装测试</p>
+                        </div>
+                        
+                        <div class="text-center group">
+                            <div class="w-24 h-24 bg-gradient-to-br from-green-500 to-green-600 rounded-full flex items-center justify-center text-white text-3xl mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
+                                <i class="fa fa-flask"></i>
+                            </div>
+                            <h3 class="text-lg font-semibold mb-2">生物医药</h3>
+                            <p class="text-gray-600 text-sm">创新药物、医疗器械、精准医疗</p>
+                        </div>
+                        
+                        <div class="text-center group">
+                            <div class="w-24 h-24 bg-gradient-to-br from-purple-500 to-purple-600 rounded-full flex items-center justify-center text-white text-3xl mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
+                                <i class="fa fa-brain"></i>
+                            </div>
+                            <h3 class="text-lg font-semibold mb-2">人工智能</h3>
+                            <p class="text-gray-600 text-sm">AI算法、智能硬件、应用场景</p>
+                        </div>
+                        
+                        <div class="text-center group">
+                            <div class="w-24 h-24 bg-gradient-to-br from-yellow-500 to-yellow-600 rounded-full flex items-center justify-center text-white text-3xl mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
+                                <i class="fa fa-bullseye"></i>
+                            </div>
+                            <h3 class="text-lg font-semibold mb-2">新能源</h3>
+                            <p class="text-gray-600 text-sm">新能源汽车、储能、光伏</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- 关于我们 -->
+        <div id="page-about" class="page-content hidden">
+            <section class="py-20 bg-white">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="text-center mb-16">
+                        <h2 class="text-3xl font-bold mb-4 text-dark">关于我们</h2>
+                        <div class="h-1 w-20 bg-primary mx-auto mb-8"></div>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
+                        <!-- 左侧菜单 -->
+                        <div class="lg:col-span-1">
+                            <div class="bg-gray-50 p-6 rounded-lg">
+                                <h3 class="text-xl font-bold mb-6 text-dark">公司信息</h3>
+                                <ul class="space-y-4">
+                                    <li onclick="showAboutTab('company')" class="about-tab active p-3 rounded-lg cursor-pointer hover:bg-white transition-colors">
+                                        <i class="fa fa-building mr-3 text-primary"></i>公司简介
+                                    </li>
+                                    <li onclick="showAboutTab('shareholder')" class="about-tab p-3 rounded-lg cursor-pointer hover:bg-white transition-colors">
+                                        <i class="fa fa-users mr-3 text-primary"></i>股东背景
+                                    </li>
+                                    <li onclick="showAboutTab('management')" class="about-tab p-3 rounded-lg cursor-pointer hover:bg-white transition-colors">
+                                        <i class="fa fa-bullseye mr-3 text-primary"></i>董监高
+                                    </li>
+                                    <li onclick="showAboutTab('organization')" class="about-tab p-3 rounded-lg cursor-pointer hover:bg-white transition-colors">
+                                        <i class="fa fa-sitemap mr-3 text-primary"></i>组织架构
+                                    </li>
+                                    <li onclick="showAboutTab('business-scope')" class="about-tab p-3 rounded-lg cursor-pointer hover:bg-white transition-colors">
+                                        <i class="fa fa-list mr-3 text-primary"></i>经营范围
+                                    </li>
+                                    <li onclick="showAboutTab('system')" class="about-tab p-3 rounded-lg cursor-pointer hover:bg-white transition-colors">
+                                        <i class="fa fa-cog mr-3 text-primary"></i>制度建设
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <!-- 右侧内容 -->
+                        <div class="lg:col-span-2">
+                            <!-- 公司简介 -->
+                            <div id="about-company" class="about-content">
+                                <h3 class="text-2xl font-bold mb-6 text-dark">公司简介</h3>
+                                <div class="prose max-w-none text-gray-600 leading-relaxed">
+                                    <p class="mb-4">
+                                        国泰君安证裕投资有限公司是国泰海通证券股份有限公司（证券代码：601211.SH，2611.HK；简称"国泰海通"）的全资子公司，
+                                        依照相关法律法规及监管要求，从事股权投资、金融产品投资，以及经许可的其他投资业务。
+                                    </p>
+                                    <p class="mb-4">
+                                        证裕投资依托国泰海通品牌优势及雄厚的资本实力、领先的投研水平，运用自有资金开展投资，
+                                        构建买方业务体系，提升国泰海通综合金融服务能力。
+                                    </p>
+                                    <div class="bg-gray-50 p-6 rounded-lg mt-8">
+                                        <h4 class="font-semibold mb-4 text-dark">基本信息</h4>
+                                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                            <div>
+                                                <span class="font-medium">法定代表人：</span>
+                                                <span>聂小刚</span>
+                                            </div>
+                                            <div>
+                                                <span class="font-medium">注册资本：</span>
+                                                <span>人民币45亿元整</span>
+                                            </div>
+                                            <div>
+                                                <span class="font-medium">注册地址：</span>
+                                                <span>上海市杨浦区周家嘴路3255号1106室</span>
+                                            </div>
+                                            <div>
+                                                <span class="font-medium">成立时间：</span>
+                                                <span>2018年2月12日</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- 股东背景 -->
+                            <div id="about-shareholder" class="about-content hidden">
+                                <h3 class="text-2xl font-bold mb-6 text-dark">股东背景</h3>
+                                <div class="prose max-w-none text-gray-600 leading-relaxed">
+                                    <p class="mb-6">
+                                        国泰君安证裕投资有限公司的唯一股东为国泰海通证券股份有限公司，
+                                        是中国证券行业长期、持续、全面领先的综合金融服务商。
+                                    </p>
+                                    <div class="bg-gray-50 p-6 rounded-lg mb-6">
+                                        <h4 class="font-semibold mb-4 text-dark">国泰海通证券股份有限公司</h4>
+                                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                            <div>
+                                                <span class="font-medium">股票代码：</span>
+                                                <span>601211.SH，2611.HK</span>
+                                            </div>
+                                            <div>
+                                                <span class="font-medium">成立时间：</span>
+                                                <span>1999年8月18日</span>
+                                            </div>
+                                            <div>
+                                                <span class="font-medium">注册资本：</span>
+                                                <span>约157.6亿元</span>
+                                            </div>
+                                            <div>
+                                                <span class="font-medium">总部地址：</span>
+                                                <span>上海市浦东新区世纪大道1788号</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <p>
+                                        国泰海通证券在资本市场具有重要影响力，拥有齐全的业务牌照，
+                                        为客户提供证券经纪、投行、资管、研究、信用交易等全方位金融服务。
+                                    </p>
+                                </div>
+                            </div>
+                            
+                            <!-- 董监高 -->
+                            <div id="about-management" class="about-content hidden">
+                                <h3 class="text-2xl font-bold mb-6 text-dark">董监高人员</h3>
+                                <div class="space-y-6">
+                                    <div class="bg-white border border-gray-200 rounded-lg p-6">
+                                        <h4 class="font-semibold mb-4 text-dark">董事会成员</h4>
+                                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                            <div class="flex items-center">
+                                                <div class="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center mr-4">
+                                                    <i class="fa fa-bullseye text-gray-600"></i>
+                                                </div>
+                                                <div>
+                                                    <div class="font-medium">聂小刚</div>
+                                                    <div class="text-sm text-gray-600">董事长</div>
+                                                </div>
+                                            </div>
+                                            <div class="flex items-center">
+                                                <div class="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center mr-4">
+                                                    <i class="fa fa-bullseye text-gray-600"></i>
+                                                </div>
+                                                <div>
+                                                    <div class="font-medium">其他董事</div>
+                                                    <div class="text-sm text-gray-600">待补充</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="bg-white border border-gray-200 rounded-lg p-6">
+                                        <h4 class="font-semibold mb-4 text-dark">监事</h4>
+                                        <div class="flex items-center">
+                                            <div class="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center mr-4">
+                                                <i class="fa fa-bullseye text-gray-600"></i>
+                                            </div>
+                                            <div>
+                                                <div class="font-medium">监事长</div>
+                                                <div class="text-sm text-gray-600">待补充</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="bg-white border border-gray-200 rounded-lg p-6">
+                                        <h4 class="font-semibold mb-4 text-dark">高级管理人员</h4>
+                                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                            <div class="flex items-center">
+                                                <div class="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center mr-4">
+                                                    <i class="fa fa-bullseye text-gray-600"></i>
+                                                </div>
+                                                <div>
+                                                    <div class="font-medium">总经理</div>
+                                                    <div class="text-sm text-gray-600">待补充</div>
+                                                </div>
+                                            </div>
+                                            <div class="flex items-center">
+                                                <div class="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center mr-4">
+                                                    <i class="fa fa-bullseye text-gray-600"></i>
+                                                </div>
+                                                <div>
+                                                    <div class="font-medium">副总经理</div>
+                                                    <div class="text-sm text-gray-600">待补充</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- 组织架构 -->
+                            <div id="about-organization" class="about-content hidden">
+                                <h3 class="text-2xl font-bold mb-6 text-dark">组织架构</h3>
+                                <div class="bg-white border border-gray-200 rounded-lg p-8">
+                                    <div class="text-center mb-8">
+                                        <div class="inline-block bg-primary text-white px-6 py-3 rounded-lg font-semibold">
+                                            董事会
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                                        <div class="text-center">
+                                            <div class="bg-gray-100 px-4 py-2 rounded-lg font-medium mb-2">董事长</div>
+                                            <div class="text-sm text-gray-600">聂小刚</div>
+                                        </div>
+                                        <div class="text-center">
+                                            <div class="bg-gray-100 px-4 py-2 rounded-lg font-medium mb-2">监事会</div>
+                                            <div class="text-sm text-gray-600">监事长</div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="text-center mb-8">
+                                        <div class="inline-block bg-secondary text-white px-6 py-3 rounded-lg font-semibold">
+                                            总经理
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                        <div class="text-center">
+                                            <div class="bg-gray-100 px-3 py-2 rounded-lg font-medium text-sm">投资部</div>
+                                        </div>
+                                        <div class="text-center">
+                                            <div class="bg-gray-100 px-3 py-2 rounded-lg font-medium text-sm">风控部</div>
+                                        </div>
+                                        <div class="text-center">
+                                            <div class="bg-gray-100 px-3 py-2 rounded-lg font-medium text-sm">综合部</div>
+                                        </div>
+                                        <div class="text-center">
+                                            <div class="bg-gray-100 px-3 py-2 rounded-lg font-medium text-sm">财务部</div>
+                                        </div>
+                                        <div class="text-center">
+                                            <div class="bg-gray-100 px-3 py-2 rounded-lg font-medium text-sm">合规部</div>
+                                        </div>
+                                        <div class="text-center">
+                                            <div class="bg-gray-100 px-3 py-2 rounded-lg font-medium text-sm">投后管理部</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- 经营范围 -->
+                            <div id="about-business-scope" class="about-content hidden">
+                                <h3 class="text-2xl font-bold mb-6 text-dark">经营范围</h3>
+                                <div class="bg-white border border-gray-200 rounded-lg p-8">
+                                    <div class="prose max-w-none text-gray-600 leading-relaxed">
+                                        <p class="mb-6">
+                                            国泰君安证裕投资有限公司主要从事以下业务：
+                                        </p>
+                                        <ul class="list-disc pl-6 mb-6 space-y-2">
+                                            <li>股权投资</li>
+                                            <li>金融产品投资</li>
+                                            <li>投资管理</li>
+                                            <li>投资咨询</li>
+                                            <li>资产管理</li>
+                                            <li>经中国证监会许可的其他投资业务</li>
+                                        </ul>
+                                        <p>
+                                            公司严格按照相关法律法规及监管要求开展业务，建立了完善的内部控制体系，
+                                            确保各项业务合规、稳健运行。
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- 制度建设 -->
+                            <div id="about-system" class="about-content hidden">
+                                <h3 class="text-2xl font-bold mb-6 text-dark">制度建设</h3>
+                                <div class="bg-white border border-gray-200 rounded-lg p-8">
+                                    <div class="prose max-w-none text-gray-600 leading-relaxed">
+                                        <p class="mb-6">
+                                            公司建立了完善的内部控制制度体系，包括：
+                                        </p>
+                                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                                            <div class="bg-gray-50 p-4 rounded-lg">
+                                                <h4 class="font-semibold mb-2 text-dark">公司治理制度</h4>
+                                                <ul class="text-sm space-y-1">
+                                                    <li>• 公司章程</li>
+                                                    <li>• 股东大会议事规则</li>
+                                                    <li>• 董事会议事规则</li>
+                                                    <li>• 监事会议事规则</li>
+                                                </ul>
+                                            </div>
+                                            <div class="bg-gray-50 p-4 rounded-lg">
+                                                <h4 class="font-semibold mb-2 text-dark">投资管理制度</h4>
+                                                <ul class="text-sm space-y-1">
+                                                    <li>• 投资决策制度</li>
+                                                    <li>• 投资管理制度</li>
+                                                    <li>• 风险控制制度</li>
+                                                    <li>• 投后管理制度</li>
+                                                </ul>
+                                            </div>
+                                            <div class="bg-gray-50 p-4 rounded-lg">
+                                                <h4 class="font-semibold mb-2 text-dark">内部控制制度</h4>
+                                                <ul class="text-sm space-y-1">
+                                                    <li>• 合规管理制度</li>
+                                                    <li>• 内部审计制度</li>
+                                                    <li>• 信息披露制度</li>
+                                                    <li>• 保密管理制度</li>
+                                                </ul>
+                                            </div>
+                                            <div class="bg-gray-50 p-4 rounded-lg">
+                                                <h4 class="font-semibold mb-2 text-dark">财务管理制</h4>
+                                                <ul class="text-sm space-y-1">
+                                                    <li>• 财务管理制度</li>
+                                                    <li>• 会计核算制度</li>
+                                                    <li>• 资金管理制度</li>
+                                                    <li>• 费用管理制度</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <p>
+                                            公司持续完善制度体系，确保各项业务活动有章可循，
+                                            为公司的合规经营和稳健发展提供制度保障。
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- 公司业务 -->
+        <div id="page-business" class="page-content hidden">
+            <section class="py-20 bg-white">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="text-center mb-16">
+                        <h2 class="text-3xl font-bold mb-4 text-dark">公司业务</h2>
+                        <div class="h-1 w-20 bg-primary mx-auto mb-8"></div>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
+                        <!-- 左侧菜单 -->
+                        <div class="lg:col-span-1">
+                            <div class="bg-gray-50 p-6 rounded-lg">
+                                <h3 class="text-xl font-bold mb-6 text-dark">业务介绍</h3>
+                                <ul class="space-y-4">
+                                    <li onclick="showBusinessTab('overview')" class="business-tab active p-3 rounded-lg cursor-pointer hover:bg-white transition-colors">
+                                        <i class="fa fa-bullseye mr-3 text-primary"></i>业务简介
+                                    </li>
+                                    <li onclick="showBusinessTab('philosophy')" class="business-tab p-3 rounded-lg cursor-pointer hover:bg-white transition-colors">
+                                        <i class="fa fa-lightbulb-o mr-3 text-primary"></i>经营理念
+                                    </li>
+                                    <li onclick="showBusinessTab('investment-philosophy')" class="business-tab p-3 rounded-lg cursor-pointer hover:bg-white transition-colors">
+                                        <i class="fa fa-target mr-3 text-primary"></i>投资理念
+                                    </li>
+                                    <li onclick="showBusinessTab('areas')" class="business-tab p-3 rounded-lg cursor-pointer hover:bg-white transition-colors">
+                                        <i class="fa fa-map-marker mr-3 text-primary"></i>投资领域
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <!-- 右侧内容 -->
+                        <div class="lg:col-span-2">
+                            <!-- 业务简介 -->
+                            <div id="business-overview" class="business-content">
+                                <h3 class="text-2xl font-bold mb-6 text-dark">业务简介</h3>
+                                <div class="prose max-w-none text-gray-600 leading-relaxed">
+                                    <p class="mb-6">
+                                        证裕投资以股权投资、私募股权基金投资、科创板跟投为主要业务，秉持以"服务集团战略、推进组织协同、
+                                        改善资本收益"的战略定位，是国泰海通自有资金投资的重要实施平台，
+                                        落实集团长期资产配置和战略布局，实施长期价值投资。
+                                    </p>
+                                    <div class="bg-gray-50 p-6 rounded-lg mb-6">
+                                        <h4 class="font-semibold mb-4 text-dark">核心业务板块</h4>
+                                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                            <div class="text-center">
+                                                <div class="w-16 h-16 bg-primary/10 rounded-lg flex items-center justify-center text-primary text-2xl mx-auto mb-3">
+                                                    <i class="fa fa-bullseye"></i>
+                                                </div>
+                                                <div class="font-medium">股权投资</div>
+                                            </div>
+                                            <div class="text-center">
+                                                <div class="w-16 h-16 bg-secondary/10 rounded-lg flex items-center justify-center text-secondary text-2xl mx-auto mb-3">
+                                                    <i class="fa fa-pie-chart"></i>
+                                                </div>
+                                                <div class="font-medium">基金投资</div>
+                                            </div>
+                                            <div class="text-center">
+                                                <div class="w-16 h-16 bg-accent/10 rounded-lg flex items-center justify-center text-accent text-2xl mx-auto mb-3">
+                                                    <i class="fa fa-rocket"></i>
+                                                </div>
+                                                <div class="font-medium">科创板跟投</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <p>
+                                        公司依托国泰海通的品牌优势、客户资源和投研能力，聚焦国家战略性新兴产业，
+                                        重点投资具有核心技术和高成长性的优质企业，为股东创造长期稳定的投资回报。
+                                    </p>
+                                </div>
+                            </div>
+                            
+                            <!-- 经营理念 -->
+                            <div id="business-philosophy" class="business-content hidden">
+                                <h3 class="text-2xl font-bold mb-6 text-dark">经营理念</h3>
+                                <div class="bg-white border border-gray-200 rounded-lg p-8">
+                                    <div class="prose max-w-none text-gray-600 leading-relaxed">
+                                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+                                            <div>
+                                                <div class="w-16 h-16 bg-primary/10 rounded-lg flex items-center justify-center text-primary text-2xl mb-4">
+                                                    <i class="fa fa-shield"></i>
+                                                </div>
+                                                <h4 class="text-xl font-semibold mb-3 text-dark">合规经营</h4>
+                                                <p>
+                                                    严格遵守法律法规和监管要求，建立完善的内部控制体系，
+                                                    确保各项业务合规、稳健运行。
+                                                </p>
+                                            </div>
+                                            <div>
+                                                <div class="w-16 h-16 bg-secondary/10 rounded-lg flex items-center justify-center text-secondary text-2xl mb-4">
+                                                    <i class="fa fa-bullseye"></i>
+                                                </div>
+                                                <h4 class="text-xl font-semibold mb-3 text-dark">专业投资</h4>
+                                                <p>
+                                                    凭借专业的投资团队和丰富的投资经验，深入研究行业趋势，
+                                                    精选优质投资标的。
+                                                </p>
+                                            </div>
+                                            <div>
+                                                <div class="w-16 h-16 bg-accent/10 rounded-lg flex items-center justify-center text-accent text-2xl mb-4">
+                                                    <i class="fa fa-handshake-o"></i>
+                                                </div>
+                                                <h4 class="text-xl font-semibold mb-3 text-dark">诚信合作</h4>
+                                                <p>
+                                                    坚持诚信为本，与投资伙伴建立长期稳定的合作关系，
+                                                    实现互利共赢。
+                                                </p>
+                                            </div>
+                                            <div>
+                                                <div class="w-16 h-16 bg-green-100 rounded-lg flex items-center justify-center text-green-600 text-2xl mb-4">
+                                                    <i class="fa fa-line-chart"></i>
+                                                </div>
+                                                <h4 class="text-xl font-semibold mb-3 text-dark">价值创造</h4>
+                                                <p>
+                                                    以价值投资为导向，通过资本运作和资源整合，
+                                                    为被投企业和股东创造价值。
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- 投资理念 -->
+                            <div id="business-investment-philosophy" class="business-content hidden">
+                                <h3 class="text-2xl font-bold mb-6 text-dark">投资理念</h3>
+                                <div class="bg-white border border-gray-200 rounded-lg p-8">
+                                    <div class="prose max-w-none text-gray-600 leading-relaxed">
+                                        <div class="mb-8">
+                                            <h4 class="text-xl font-semibold mb-4 text-dark">长期价值投资</h4>
+                                            <p class="mb-4">
+                                                坚持长期投资理念，关注企业的核心竞争力和长期发展潜力，
+                                                不追求短期投机收益，陪伴优质企业共同成长。
+                                            </p>
+                                        </div>
+                                        
+                                        <div class="mb-8">
+                                            <h4 class="text-xl font-semibold mb-4 text-dark">行业聚焦</h4>
+                                            <p class="mb-4">
+                                                聚焦国家战略性新兴产业，重点投资集成电路、生物医药、
+                                                人工智能、新能源等领域的优质企业。
+                                            </p>
+                                        </div>
+                                        
+                                        <div class="mb-8">
+                                            <h4 class="text-xl font-semibold mb-4 text-dark">价值发现</h4>
+                                            <p class="mb-4">
+                                                通过深入的行业研究和企业分析，发现被低估的优质投资标的，
+                                                获取长期投资价值。
+                                            </p>
+                                        </div>
+                                        
+                                        <div class="mb-8">
+                                            <h4 class="text-xl font-semibold mb-4 text-dark">投后赋能</h4>
+                                            <p>
+                                                不仅提供资金支持，更通过资源整合、管理提升等方式，
+                                                为被投企业提供全方位的投后服务。
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- 投资领域 -->
+                            <div id="business-areas" class="business-content hidden">
+                                <h3 class="text-2xl font-bold mb-6 text-dark">投资领域</h3>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                                    <div class="bg-white border border-gray-200 rounded-lg p-6 hover:shadow-lg transition-shadow">
+                                        <div class="w-16 h-16 bg-blue-100 rounded-lg flex items-center justify-center text-blue-600 text-2xl mb-4">
+                                            <i class="fa fa-microchip"></i>
+                                        </div>
+                                        <h4 class="text-xl font-semibold mb-3 text-dark">集成电路</h4>
+                                        <p class="text-gray-600 mb-4">
+                                            投资半导体设计、制造、封装测试、设备材料等产业链关键环节，
+                                            支持国内集成电路产业发展。
+                                        </p>
+                                        <div class="flex flex-wrap gap-2">
+                                            <span class="px-2 py-1 bg-blue-50 text-blue-600 text-xs rounded">芯片设计</span>
+                                            <span class="px-2 py-1 bg-blue-50 text-blue-600 text-xs rounded">晶圆制造</span>
+                                            <span class="px-2 py-1 bg-blue-50 text-blue-600 text-xs rounded">封装测试</span>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="bg-white border border-gray-200 rounded-lg p-6 hover:shadow-lg transition-shadow">
+                                        <div class="w-16 h-16 bg-green-100 rounded-lg flex items-center justify-center text-green-600 text-2xl mb-4">
+                                            <i class="fa fa-flask"></i>
+                                        </div>
+                                        <h4 class="text-xl font-semibold mb-3 text-dark">生物医药</h4>
+                                        <p class="text-gray-600 mb-4">
+                                            关注创新药物研发、医疗器械、精准医疗等领域，
+                                            助力健康产业创新发展。
+                                        </p>
+                                        <div class="flex flex-wrap gap-2">
+                                            <span class="px-2 py-1 bg-green-50 text-green-600 text-xs rounded">创新药</span>
+                                            <span class="px-2 py-1 bg-green-50 text-green-600 text-xs rounded">医疗器械</span>
+                                            <span class="px-2 py-1 bg-green-50 text-green-600 text-xs rounded">精准医疗</span>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="bg-white border border-gray-200 rounded-lg p-6 hover:shadow-lg transition-shadow">
+                                        <div class="w-16 h-16 bg-purple-100 rounded-lg flex items-center justify-center text-purple-600 text-2xl mb-4">
+                                            <i class="fa fa-brain"></i>
+                                        </div>
+                                        <h4 class="text-xl font-semibold mb-3 text-dark">人工智能</h4>
+                                        <p class="text-gray-600 mb-4">
+                                            布局人工智能算法、应用场景及相关基础设施，
+                                            推动AI技术产业化落地。
+                                        </p>
+                                        <div class="flex flex-wrap gap-2">
+                                            <span class="px-2 py-1 bg-purple-50 text-purple-600 text-xs rounded">算法模型</span>
+                                            <span class="px-2 py-1 bg-purple-50 text-purple-600 text-xs rounded">智能硬件</span>
+                                            <span class="px-2 py-1 bg-purple-50 text-purple-600 text-xs rounded">行业应用</span>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="bg-white border border-gray-200 rounded-lg p-6 hover:shadow-lg transition-shadow">
+                                        <div class="w-16 h-16 bg-yellow-100 rounded-lg flex items-center justify-center text-yellow-600 text-2xl mb-4">
+                                            <i class="fa fa-bullseye"></i>
+                                        </div>
+                                        <h4 class="text-xl font-semibold mb-3 text-dark">新能源</h4>
+                                        <p class="text-gray-600 mb-4">
+                                            投资新能源汽车、储能、光伏等领域，
+                                            支持绿色低碳发展。
+                                        </p>
+                                        <div class="flex flex-wrap gap-2">
+                                            <span class="px-2 py-1 bg-yellow-50 text-yellow-600 text-xs rounded">新能源汽车</span>
+                                            <span class="px-2 py-1 bg-yellow-50 text-yellow-600 text-xs rounded">储能技术</span>
+                                            <span class="px-2 py-1 bg-yellow-50 text-yellow-600 text-xs rounded">光伏产业</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- 投资案例 -->
+        <div id="page-cases" class="page-content hidden">
+            <section class="py-20 bg-white">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="text-center mb-16">
+                        <h2 class="text-3xl font-bold mb-4 text-dark">投资案例</h2>
+                        <div class="h-1 w-20 bg-primary mx-auto mb-8"></div>
+                        <p class="text-gray-600 max-w-2xl mx-auto">
+                            精选代表性投资案例，展示我们的投资能力和价值创造成果
+                        </p>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                        <!-- 案例1 -->
+                        <div class="bg-white border border-gray-200 rounded-lg overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2">
+                            <div class="h-48 bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center">
+                                <i class="fa fa-microchip text-white text-6xl"></i>
+                            </div>
+                            <div class="p-6">
+                                <div class="flex items-center mb-3">
+                                    <span class="px-3 py-1 bg-blue-100 text-blue-600 text-sm rounded-full">集成电路</span>
+                                </div>
+                                <h3 class="text-xl font-bold mb-3 text-dark">某半导体设计公司</h3>
+                                <p class="text-gray-600 mb-4">
+                                    投资于国内领先的半导体设计企业，专注于高端芯片研发与设计。
+                                </p>
+                                <div class="flex justify-between items-center">
+                                    <div class="text-sm text-gray-500">
+                                        <i class="fa fa-calendar mr-1"></i>2023年
+                                    </div>
+                                    <div class="text-sm text-gray-500">
+                                        <i class="fa fa-money mr-1"></i>2.5亿元
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 案例2 -->
+                        <div class="bg-white border border-gray-200 rounded-lg overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2">
+                            <div class="h-48 bg-gradient-to-br from-green-500 to-green-600 flex items-center justify-center">
+                                <i class="fa fa-flask text-white text-6xl"></i>
+                            </div>
+                            <div class="p-6">
+                                <div class="flex items-center mb-3">
+                                    <span class="px-3 py-1 bg-green-100 text-green-600 text-sm rounded-full">生物医药</span>
+                                </div>
+                                <h3 class="text-xl font-bold mb-3 text-dark">某创新药企</h3>
+                                <p class="text-gray-600 mb-4">
+                                    投资专注于肿瘤免疫治疗的创新药企，拥有多个在研管线产品。
+                                </p>
+                                <div class="flex justify-between items-center">
+                                    <div class="text-sm text-gray-500">
+                                        <i class="fa fa-calendar mr-1"></i>2023年
+                                    </div>
+                                    <div class="text-sm text-gray-500">
+                                        <i class="fa fa-money mr-1"></i>3.8亿元
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 案例3 -->
+                        <div class="bg-white border border-gray-200 rounded-lg overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2">
+                            <div class="h-48 bg-gradient-to-br from-purple-500 to-purple-600 flex items-center justify-center">
+                                <i class="fa fa-brain text-white text-6xl"></i>
+                            </div>
+                            <div class="p-6">
+                                <div class="flex items-center mb-3">
+                                    <span class="px-3 py-1 bg-purple-100 text-purple-600 text-sm rounded-full">人工智能</span>
+                                </div>
+                                <h3 class="text-xl font-bold mb-3 text-dark">某AI算法公司</h3>
+                                <p class="text-gray-600 mb-4">
+                                    投资于领先的AI算法公司，专注于计算机视觉和深度学习技术。
+                                </p>
+                                <div class="flex justify-between items-center">
+                                    <div class="text-sm text-gray-500">
+                                        <i class="fa fa-calendar mr-1"></i>2022年
+                                    </div>
+                                    <div class="text-sm text-gray-500">
+                                        <i class="fa fa-money mr-1"></i>1.2亿元
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 案例4 -->
+                        <div class="bg-white border border-gray-200 rounded-lg overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2">
+                            <div class="h-48 bg-gradient-to-br from-yellow-500 to-yellow-600 flex items-center justify-center">
+                                <i class="fa fa-bullseye text-white text-6xl"></i>
+                            </div>
+                            <div class="p-6">
+                                <div class="flex items-center mb-3">
+                                    <span class="px-3 py-1 bg-yellow-100 text-yellow-600 text-sm rounded-full">新能源</span>
+                                </div>
+                                <h3 class="text-xl font-bold mb-3 text-dark">某储能技术公司</h3>
+                                <p class="text-gray-600 mb-4">
+                                    投资于新能源储能技术公司，专注于电池管理系统研发。
+                                </p>
+                                <div class="flex justify-between items-center">
+                                    <div class="text-sm text-gray-500">
+                                        <i class="fa fa-calendar mr-1"></i>2022年
+                                    </div>
+                                    <div class="text-sm text-gray-500">
+                                        <i class="fa fa-money mr-1"></i>4.5亿元
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 案例5 -->
+                        <div class="bg-white border border-gray-200 rounded-lg overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2">
+                            <div class="h-48 bg-gradient-to-br from-red-500 to-red-600 flex items-center justify-center">
+                                <i class="fa fa-car text-white text-6xl"></i>
+                            </div>
+                            <div class="p-6">
+                                <div class="flex items-center mb-3">
+                                    <span class="px-3 py-1 bg-red-100 text-red-600 text-sm rounded-full">新能源汽车</span>
+                                </div>
+                                <h3 class="text-xl font-bold mb-3 text-dark">某新能源车企</h3>
+                                <p class="text-gray-600 mb-4">
+                                    投资于新能源汽车产业链企业，专注于智能驾驶技术。
+                                </p>
+                                <div class="flex justify-between items-center">
+                                    <div class="text-sm text-gray-500">
+                                        <i class="fa fa-calendar mr-1"></i>2021年
+                                    </div>
+                                    <div class="text-sm text-gray-500">
+                                        <i class="fa fa-money mr-1"></i>8.0亿元
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 案例6 -->
+                        <div class="bg-white border border-gray-200 rounded-lg overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2">
+                            <div class="h-48 bg-gradient-to-br from-indigo-500 to-indigo-600 flex items-center justify-center">
+                                <i class="fa fa-cloud text-white text-6xl"></i>
+                            </div>
+                            <div class="p-6">
+                                <div class="flex items-center mb-3">
+                                    <span class="px-3 py-1 bg-indigo-100 text-indigo-600 text-sm rounded-full">云计算</span>
+                                </div>
+                                <h3 class="text-xl font-bold mb-3 text-dark">某云计算公司</h3>
+                                <p class="text-gray-600 mb-4">
+                                    投资于企业级云计算服务提供商，专注于混合云解决方案。
+                                </p>
+                                <div class="flex justify-between items-center">
+                                    <div class="text-sm text-gray-500">
+                                        <i class="fa fa-calendar mr-1"></i>2021年
+                                    </div>
+                                    <div class="text-sm text-gray-500">
+                                        <i class="fa fa-money mr-1"></i>6.5亿元
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 投资数据统计 -->
+                    <div class="mt-16 bg-gray-50 rounded-lg p-8">
+                        <h3 class="text-2xl font-bold mb-8 text-center text-dark">投资数据统计</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                            <div class="text-center">
+                                <div class="text-3xl font-bold text-primary mb-2">28个</div>
+                                <div class="text-gray-600">累计投资项目</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-3xl font-bold text-secondary mb-2">68.5亿元</div>
+                                <div class="text-gray-600">累计投资金额</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-3xl font-bold text-accent mb-2">4个</div>
+                                <div class="text-gray-600">已上市项目</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-3xl font-bold text-green-600 mb-2">3.2x</div>
+                                <div class="text-gray-600">平均回报倍数</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- 新闻动态 -->
+        <div id="page-news" class="page-content hidden">
+            <section class="py-20 bg-gray-50">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="text-center mb-16">
+                        <h2 class="text-3xl font-bold mb-2 text-dark">LATEST NEWS</h2>
+                        <p class="text-xl text-gray-600 mb-6">新闻动态</p>
+                        <div class="h-1 w-20 bg-primary mx-auto"></div>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
+                        <!-- 左侧菜单 -->
+                        <div class="lg:col-span-1">
+                            <div class="bg-gray-50 p-6 rounded-lg">
+                                <h3 class="text-xl font-bold mb-6 text-dark">新闻分类</h3>
+                                <ul class="space-y-4">
+                                    <li onclick="showNewsTab('company')" class="news-tab active p-3 rounded-lg cursor-pointer hover:bg-white transition-colors">
+                                        <i class="fa fa-building mr-3 text-primary"></i>公司动态
+                                    </li>
+                                    <li onclick="showNewsTab('industry')" class="news-tab p-3 rounded-lg cursor-pointer hover:bg-white transition-colors">
+                                        <i class="fa fa-line-chart mr-3 text-primary"></i>行业资讯
+                                    </li>
+                                    <li onclick="showNewsTab('notice')" class="news-tab p-3 rounded-lg cursor-pointer hover:bg-white transition-colors">
+                                        <i class="fa fa-bullhorn mr-3 text-primary"></i>公告通知
+                                    </li>
+                                </ul>
+                                
+                                <div class="mt-8">
+                                    <h4 class="text-lg font-semibold mb-4 text-dark">最新公告</h4>
+                                    <div class="space-y-3">
+                                        <a href="#" class="block p-3 bg-white rounded-lg hover:shadow-md transition-shadow">
+                                            <div class="text-sm font-medium text-dark mb-1">关于参与设立上海三大先导产业母基金的公告</div>
+                                            <div class="text-xs text-gray-500">2023-08-10</div>
+                                        </a>
+                                        <a href="#" class="block p-3 bg-white rounded-lg hover:shadow-md transition-shadow">
+                                            <div class="text-sm font-medium text-dark mb-1">2023年半年度投资报告</div>
+                                            <div class="text-xs text-gray-500">2023-07-25</div>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 右侧新闻列表 -->
+                        <div class="lg:col-span-2">
+                            <!-- 公司动态 -->
+                            <div id="news-company" class="news-content">
+                                <h3 class="text-2xl font-bold mb-6 text-dark">公司动态</h3>
+                                
+                                <div class="space-y-8">
+                                    <!-- 新闻1 -->
+                                    <div class="bg-white card-border p-6 hover:shadow-lg transition-all duration-300">
+                                        <div class="flex flex-col md:flex-row md:items-start gap-6">
+                                            <!-- 日期标签 -->
+                                            <div class="date-badge flex-shrink-0">
+                                                <span class="text-xs">2023</span>
+                                                <span class="text-lg">08/15</span>
+                                            </div>
+                                            
+                                            <!-- 新闻内容 -->
+                                            <div class="flex-1">
+                                                <div class="flex items-center mb-3">
+                                                    <span class="px-3 py-1 bg-primary/10 text-primary text-sm rounded-full">公司动态</span>
+                                                </div>
+                                                <h4 class="text-xl font-bold mb-3 text-dark">国泰君安证裕投资主办2023年科技创新投资论坛</h4>
+                                                <p class="text-gray-600 mb-4 leading-relaxed">
+                                                    8月15日，国泰君安证裕投资在上海主办"2023年科技创新投资论坛"，汇聚行业专家、企业家及投资机构代表，
+                                                    共同探讨科技创新领域的投资机遇与挑战...
+                                                </p>
+                                                <a href="#" class="inline-flex items-center text-primary font-medium hover:underline transition-colors">
+                                                    查看详情 <i class="fa fa-angle-right ml-2"></i>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- 新闻2 -->
+                                    <div class="bg-white card-border p-6 hover:shadow-lg transition-all duration-300">
+                                        <div class="flex flex-col md:flex-row md:items-start gap-6">
+                                            <!-- 日期标签 -->
+                                            <div class="date-badge flex-shrink-0">
+                                                <span class="text-xs">2023</span>
+                                                <span class="text-lg">07/20</span>
+                                            </div>
+                                            
+                                            <!-- 新闻内容 -->
+                                            <div class="flex-1">
+                                                <div class="flex items-center mb-3">
+                                                    <span class="px-3 py-1 bg-secondary/10 text-secondary text-sm rounded-full">投资动态</span>
+                                                </div>
+                                                <h4 class="text-xl font-bold mb-3 text-dark">国泰君安证裕投资完成对某新能源企业B轮投资</h4>
+                                                <p class="text-gray-600 mb-4 leading-relaxed">
+                                                    7月20日，国泰君安证裕投资完成对某新能源材料企业的B轮投资，投资金额4.5亿元人民币。
+                                                    该企业专注于高效储能电池材料的研发与生产...
+                                                </p>
+                                                <a href="#" class="inline-flex items-center text-primary font-medium hover:underline transition-colors">
+                                                    查看详情 <i class="fa fa-angle-right ml-2"></i>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- 新闻3 -->
+                                    <div class="bg-white card-border p-6 hover:shadow-lg transition-all duration-300">
+                                        <div class="flex flex-col md:flex-row md:items-start gap-6">
+                                            <!-- 日期标签 -->
+                                            <div class="date-badge flex-shrink-0">
+                                                <span class="text-xs">2023</span>
+                                                <span class="text-lg">06/10</span>
+                                            </div>
+                                            
+                                            <!-- 新闻内容 -->
+                                            <div class="flex-1">
+                                                <div class="flex items-center mb-3">
+                                                    <span class="px-3 py-1 bg-accent/10 text-accent text-sm rounded-full">人事任免</span>
+                                                </div>
+                                                <h4 class="text-xl font-bold mb-3 text-dark">国泰君安证裕投资宣布任命新的首席投资官</h4>
+                                                <p class="text-gray-600 mb-4 leading-relaxed">
+                                                    6月10日，国泰君安证裕投资宣布任命张博士为公司首席投资官，负责公司整体投资策略的制定与执行。
+                                                    张博士拥有15年以上股权投资经验...
+                                                </p>
+                                                <a href="#" class="inline-flex items-center text-primary font-medium hover:underline transition-colors">
+                                                    查看详情 <i class="fa fa-angle-right ml-2"></i>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- 新闻4 -->
+                                    <div class="bg-white card-border p-6 hover:shadow-lg transition-all duration-300">
+                                        <div class="flex flex-col md:flex-row md:items-start gap-6">
+                                            <!-- 日期标签 -->
+                                            <div class="date-badge flex-shrink-0">
+                                                <span class="text-xs">2023</span>
+                                                <span class="text-lg">05/08</span>
+                                            </div>
+                                            
+                                            <!-- 新闻内容 -->
+                                            <div class="flex-1">
+                                                <div class="flex items-center mb-3">
+                                                    <span class="px-3 py-1 bg-green-100 text-green-600 text-sm rounded-full">荣誉奖项</span>
+                                                </div>
+                                                <h4 class="text-xl font-bold mb-3 text-dark">国泰君安证裕投资荣获"年度最佳股权投资机构"称号</h4>
+                                                <p class="text-gray-600 mb-4 leading-relaxed">
+                                                    5月8日，在2023年中国股权投资峰会上，国泰君安证裕投资凭借卓越的投资业绩和专业能力，
+                                                    荣获"年度最佳股权投资机构"称号...
+                                                </p>
+                                                <a href="#" class="inline-flex items-center text-primary font-medium hover:underline transition-colors">
+                                                    查看详情 <i class="fa fa-angle-right ml-2"></i>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- 分页 -->
+                                <div class="mt-8 flex justify-center">
+                                    <nav class="inline-flex rounded-md shadow">
+                                        <a href="#" class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+                                            <i class="fa fa-chevron-left text-xs"></i>
+                                        </a>
+                                        <a href="#" class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-primary text-sm font-medium text-white">
+                                            1
+                                        </a>
+                                        <a href="#" class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50">
+                                            2
+                                        </a>
+                                        <a href="#" class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50">
+                                            3
+                                        </a>
+                                        <span class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700">
+                                            ...
+                                        </span>
+                                        <a href="#" class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50">
+                                            8
+                                        </a>
+                                        <a href="#" class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+                                            <i class="fa fa-chevron-right text-xs"></i>
+                                        </a>
+                                    </nav>
+                                </div>
+                            </div>
+                            
+                            <!-- 行业资讯 -->
+                            <div id="news-industry" class="news-content hidden">
+                                <h3 class="text-2xl font-bold mb-6 text-dark">行业资讯</h3>
+                                <div class="space-y-6">
+                                    <!-- 行业新闻1 -->
+                                    <div class="bg-white border border-gray-200 rounded-lg p-6">
+                                        <div class="flex items-center mb-3">
+                                            <span class="text-sm text-gray-500 mr-4">2023-08-18</span>
+                                            <span class="px-2 py-1 bg-blue-100 text-blue-600 text-xs rounded">行业动态</span>
+                                        </div>
+                                        <h4 class="text-lg font-semibold mb-2 text-dark">国家发改委发布《关于进一步促进创业投资高质量发展的若干意见》</h4>
+                                        <p class="text-gray-600">
+                                            近日，国家发改委发布《关于进一步促进创业投资高质量发展的若干意见》，
+                                            从多个方面提出支持创业投资发展的政策措施...
+                                        </p>
+                                    </div>
+                                    
+                                    <!-- 行业新闻2 -->
+                                    <div class="bg-white border border-gray-200 rounded-lg p-6">
+                                        <div class="flex items-center mb-3">
+                                            <span class="text-sm text-gray-500 mr-4">2023-08-15</span>
+                                            <span class="px-2 py-1 bg-green-100 text-green-600 text-xs rounded">技术趋势</span>
+                                        </div>
+                                        <h4 class="text-lg font-semibold mb-2 text-dark">2023年中国半导体产业规模预计突破1.5万亿元</h4>
+                                        <p class="text-gray-600">
+                                            根据最新数据显示，2023年中国半导体产业规模预计将突破1.5万亿元，
+                                            同比增长约15%，产业发展势头良好...
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- 公告通知 -->
+                            <div id="news-notice" class="news-content hidden">
+                                <h3 class="text-2xl font-bold mb-6 text-dark">公告通知</h3>
+                                <div class="space-y-6">
+                                    <!-- 公告1 -->
+                                    <div class="bg-white border border-gray-200 rounded-lg p-6">
+                                        <div class="flex items-center mb-3">
+                                            <span class="text-sm text-gray-500 mr-4">2023-08-10</span>
+                                            <span class="px-2 py-1 bg-red-100 text-red-600 text-xs rounded">重要公告</span>
+                                        </div>
+                                        <h4 class="text-lg font-semibold mb-2 text-dark">关于参与设立上海三大先导产业母基金的公告</h4>
+                                        <p class="text-gray-600 mb-3">
+                                            国泰君安证裕投资有限公司作为国泰海通证券股份有限公司的全资子公司，
+                                            近日参与设立上海三大先导产业母基金...
+                                        </p>
+                                        <a href="#" class="text-primary hover:text-primary/80 font-medium">
+                                            查看完整公告 <i class="fa fa-arrow-right ml-1"></i>
+                                        </a>
+                                    </div>
+                                    
+                                    <!-- 公告2 -->
+                                    <div class="bg-white border border-gray-200 rounded-lg p-6">
+                                        <div class="flex items-center mb-3">
+                                            <span class="text-sm text-gray-500 mr-4">2023-07-25</span>
+                                            <span class="px-2 py-1 bg-orange-100 text-orange-600 text-xs rounded">定期报告</span>
+                                        </div>
+                                        <h4 class="text-lg font-semibold mb-2 text-dark">2023年半年度投资报告</h4>
+                                        <p class="text-gray-600 mb-3">
+                                            根据相关监管要求，现将公司2023年半年度投资报告予以披露，
+                                            具体内容详见附件...
+                                        </p>
+                                        <a href="#" class="text-primary hover:text-primary/80 font-medium">
+                                            下载报告 <i class="fa fa-download ml-1"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- 联系我们 -->
+        <div id="page-contact" class="page-content hidden">
+            <section class="py-20 bg-white">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="text-center mb-16">
+                        <h2 class="text-3xl font-bold mb-4 text-dark">联系我们</h2>
+                        <div class="h-1 w-20 bg-primary mx-auto mb-8"></div>
+                        <p class="text-gray-600 max-w-2xl mx-auto">
+                            欢迎您与我们联系，我们将竭诚为您提供专业的投资服务
+                        </p>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                        <!-- 联系信息 -->
+                        <div>
+                            <h3 class="text-2xl font-bold mb-8 text-dark">联系方式</h3>
+                            <div class="space-y-6">
+                                <div class="flex items-start">
+                                    <div class="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center text-primary text-xl mr-4 flex-shrink-0">
+                                        <i class="fa fa-map-marker"></i>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-semibold mb-1 text-dark">公司地址</h4>
+                                        <p class="text-gray-600">上海市黄浦区广东路689号25楼</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex items-start">
+                                    <div class="w-12 h-12 bg-secondary/10 rounded-lg flex items-center justify-center text-secondary text-xl mr-4 flex-shrink-0">
+                                        <i class="fa fa-phone"></i>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-semibold mb-1 text-dark">联系电话</h4>
+                                        <p class="text-gray-600">021-38031809</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex items-start">
+                                    <div class="w-12 h-12 bg-accent/10 rounded-lg flex items-center justify-center text-accent text-xl mr-4 flex-shrink-0">
+                                        <i class="fa fa-envelope"></i>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-semibold mb-1 text-dark">电子邮箱</h4>
+                                        <p class="text-gray-600">contact@gtjazytz.com</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex items-start">
+                                    <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center text-green-600 text-xl mr-4 flex-shrink-0">
+                                        <i class="fa fa-flag"></i>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-semibold mb-1 text-dark">邮政编码</h4>
+                                        <p class="text-gray-600">200001</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex items-start">
+                                    <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center text-purple-600 text-xl mr-4 flex-shrink-0">
+                                        <i class="fa fa-clock-o"></i>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-semibold mb-1 text-dark">工作时间</h4>
+                                        <p class="text-gray-600">周一至周五：9:00 - 17:30（法定节假日除外）</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- 交通信息 -->
+                            <div class="mt-12">
+                                <h3 class="text-xl font-bold mb-6 text-dark">交通信息</h3>
+                                <div class="bg-gray-50 p-6 rounded-lg">
+                                    <h4 class="font-semibold mb-4 text-dark">地铁</h4>
+                                    <p class="text-gray-600 mb-4">
+                                        地铁2号线、10号线南京东路站，步行约10分钟
+                                    </p>
+                                    
+                                    <h4 class="font-semibold mb-4 text-dark">公交</h4>
+                                    <p class="text-gray-600 mb-4">
+                                        17路、20路、37路、64路、123路、135路、330路、576路、805路、921路等多条公交线路可达
+                                    </p>
+                                    
+                                    <h4 class="font-semibold mb-4 text-dark">自驾</h4>
+                                    <p class="text-gray-600">
+                                        公司楼下设有停车场，可提供访客停车服务
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 联系表单 -->
+                        <div>
+                            <h3 class="text-2xl font-bold mb-8 text-dark">发送消息</h3>
+                            <div class="bg-gray-50 p-8 rounded-lg">
+                                <form class="space-y-6">
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                        <div>
+                                            <label class="block text-sm font-medium text-gray-700 mb-2">姓名 *</label>
+                                            <input type="text" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-colors" placeholder="请输入您的姓名" required>
+                                        </div>
+                                        <div>
+                                            <label class="block text-sm font-medium text-gray-700 mb-2">公司名称</label>
+                                            <input type="text" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-colors" placeholder="请输入您的公司名称">
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                        <div>
+                                            <label class="block text-sm font-medium text-gray-700 mb-2">联系电话 *</label>
+                                            <input type="tel" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-colors" placeholder="请输入您的联系电话" required>
+                                        </div>
+                                        <div>
+                                            <label class="block text-sm font-medium text-gray-700 mb-2">电子邮箱 *</label>
+                                            <input type="email" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-colors" placeholder="请输入您的电子邮箱" required>
+                                        </div>
+                                    </div>
+                                    
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-2">咨询类型</label>
+                                        <select class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-colors">
+                                            <option>投资咨询</option>
+                                            <option>合作洽谈</option>
+                                            <option>人才招聘</option>
+                                            <option>媒体采访</option>
+                                            <option>其他</option>
+                                        </select>
+                                    </div>
+                                    
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-2">留言内容 *</label>
+                                        <textarea rows="5" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-colors" placeholder="请输入您的留言内容" required></textarea>
+                                    </div>
+                                    
+                                    <div class="flex items-center">
+                                        <input type="checkbox" id="agreement" class="w-4 h-4 text-primary focus:ring-primary border-gray-300 rounded" required>
+                                        <label for="agreement" class="ml-2 text-sm text-gray-600">
+                                            我同意根据隐私政策处理我的个人数据
+                                        </label>
+                                    </div>
+                                    
+                                    <button type="submit" class="w-full bg-primary text-white py-3 px-6 rounded-lg font-semibold hover:bg-primary/90 transition-colors transform hover:scale-105">
+                                        <i class="fa fa-paper-plane mr-2"></i>发送消息
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- 信息公示 -->
+        <div id="page-information" class="page-content hidden">
+            <section class="py-20 bg-white">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="text-center mb-16">
+                        <h2 class="text-3xl font-bold mb-4 text-dark">信息公示</h2>
+                        <div class="h-1 w-20 bg-primary mx-auto mb-8"></div>
+                        <p class="text-gray-600 max-w-2xl mx-auto">
+                            根据相关法律法规要求，及时、准确、完整地披露公司相关信息
+                        </p>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
+                        <!-- 左侧菜单 -->
+                        <div class="lg:col-span-1">
+                            <div class="bg-gray-50 p-6 rounded-lg">
+                                <h3 class="text-xl font-bold mb-6 text-dark">公示分类</h3>
+                                <ul class="space-y-4">
+                                    <li onclick="showInfoTab('company')" class="info-tab active p-3 rounded-lg cursor-pointer hover:bg-white transition-colors">
+                                        <i class="fa fa-building mr-3 text-primary"></i>公司信息
+                                    </li>
+                                    <li onclick="showInfoTab('financial')" class="info-tab p-3 rounded-lg cursor-pointer hover:bg-white transition-colors">
+                                        <i class="fa fa-bar-chart mr-3 text-primary"></i>财务信息
+                                    </li>
+                                    <li onclick="showInfoTab('investment')" class="info-tab p-3 rounded-lg cursor-pointer hover:bg-white transition-colors">
+                                        <i class="fa fa-pie-chart mr-3 text-primary"></i>投资信息
+                                    </li>
+                                    <li onclick="showInfoTab('risk')" class="info-tab p-3 rounded-lg cursor-pointer hover:bg-white transition-colors">
+                                        <i class="fa fa-exclamation-triangle mr-3 text-primary"></i>风险信息
+                                    </li>
+                                    <li onclick="showInfoTab('regulatory')" class="info-tab p-3 rounded-lg cursor-pointer hover:bg-white transition-colors">
+                                        <i class="fa fa-gavel mr-3 text-primary"></i>监管信息
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <!-- 右侧内容 -->
+                        <div class="lg:col-span-2">
+                            <!-- 公司信息 -->
+                            <div id="info-company" class="info-content">
+                                <h3 class="text-2xl font-bold mb-6 text-dark">公司基本信息</h3>
+                                
+                                <div class="bg-white border border-gray-200 rounded-lg p-8 mb-8">
+                                    <h4 class="text-lg font-semibold mb-6 text-dark">工商注册信息</h4>
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                        <div>
+                                            <span class="font-medium">公司名称：</span>
+                                            <span>国泰君安证裕投资有限公司</span>
+                                        </div>
+                                        <div>
+                                            <span class="font-medium">统一社会信用代码：</span>
+                                            <span>待补充</span>
+                                        </div>
+                                        <div>
+                                            <span class="font-medium">法定代表人：</span>
+                                            <span>聂小刚</span>
+                                        </div>
+                                        <div>
+                                            <span class="font-medium">注册资本：</span>
+                                            <span>人民币45亿元整</span>
+                                        </div>
+                                        <div>
+                                            <span class="font-medium">成立日期：</span>
+                                            <span>2018年2月12日</span>
+                                        </div>
+                                        <div>
+                                            <span class="font-medium">营业期限：</span>
+                                            <span>长期</span>
+                                        </div>
+                                        <div>
+                                            <span class="font-medium">注册地址：</span>
+                                            <span>上海市杨浦区周家嘴路3255号1106室</span>
+                                        </div>
+                                        <div>
+                                            <span class="font-medium">经营范围：</span>
+                                            <span>股权投资、金融产品投资等</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="bg-white border border-gray-200 rounded-lg p-8">
+                                    <h4 class="text-lg font-semibold mb-6 text-dark">股东信息</h4>
+                                    <div class="overflow-x-auto">
+                                        <table class="min-w-full divide-y divide-gray-200">
+                                            <thead>
+                                                <tr>
+                                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">股东名称</th>
+                                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">持股比例</th>
+                                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">股东类型</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody class="bg-white divide-y divide-gray-200">
+                                                <tr>
+                                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">国泰海通证券股份有限公司</td>
+                                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">100%</td>
+                                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">法人股东</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- 财务信息 -->
+                            <div id="info-financial" class="info-content hidden">
+                                <h3 class="text-2xl font-bold mb-6 text-dark">财务信息</h3>
+                                <div class="bg-white border border-gray-200 rounded-lg p-8">
+                                    <h4 class="text-lg font-semibold mb-6 text-dark">财务报表</h4>
+                                    <div class="space-y-4">
+                                        <a href="#" class="block p-4 bg-gray-50 rounded-lg hover:shadow-md transition-shadow">
+                                            <div class="flex items-center justify-between">
+                                                <div>
+                                                    <div class="font-medium text-dark">2023年半年度财务报告</div>
+                                                    <div class="text-sm text-gray-500">2023-07-25</div>
+                                                </div>
+                                                <i class="fa fa-download text-primary"></i>
+                                            </div>
+                                        </a>
+                                        <a href="#" class="block p-4 bg-gray-50 rounded-lg hover:shadow-md transition-shadow">
+                                            <div class="flex items-center justify-between">
+                                                <div>
+                                                    <div class="font-medium text-dark">2022年度财务报告</div>
+                                                    <div class="text-sm text-gray-500">2023-03-31</div>
+                                                </div>
+                                                <i class="fa fa-download text-primary"></i>
+                                            </div>
+                                        </a>
+                                        <a href="#" class="block p-4 bg-gray-50 rounded-lg hover:shadow-md transition-shadow">
+                                            <div class="flex items-center justify-between">
+                                                <div>
+                                                    <div class="font-medium text-dark">2021年度财务报告</div>
+                                                    <div class="text-sm text-gray-500">2022-03-31</div>
+                                                </div>
+                                                <i class="fa fa-download text-primary"></i>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- 投资信息 -->
+                            <div id="info-investment" class="info-content hidden">
+                                <h3 class="text-2xl font-bold mb-6 text-dark">投资信息</h3>
+                                <div class="bg-white border border-gray-200 rounded-lg p-8">
+                                    <h4 class="text-lg font-semibold mb-6 text-dark">投资组合</h4>
+                                    <div class="overflow-x-auto">
+                                        <table class="min-w-full divide-y divide-gray-200">
+                                            <thead>
+                                                <tr>
+                                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">投资标的</th>
+                                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">投资金额</th>
+                                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">投资时间</th>
+                                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">投资类型</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody class="bg-white divide-y divide-gray-200">
+                                                <tr>
+                                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">某半导体设计公司</td>
+                                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">2.5亿元</td>
+                                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">2023年3月</td>
+                                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">股权投资</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">某创新药企</td>
+                                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">3.8亿元</td>
+                                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">2023年1月</td>
+                                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">股权投资</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">某AI算法公司</td>
+                                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">1.2亿元</td>
+                                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">2022年11月</td>
+                                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">股权投资</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- 风险信息 -->
+                            <div id="info-risk" class="info-content hidden">
+                                <h3 class="text-2xl font-bold mb-6 text-dark">风险信息</h3>
+                                <div class="bg-white border border-gray-200 rounded-lg p-8">
+                                    <h4 class="text-lg font-semibold mb-6 text-dark">风险提示</h4>
+                                    <div class="prose max-w-none text-gray-600 leading-relaxed">
+                                        <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-6">
+                                            <p class="font-medium text-yellow-800 mb-2">投资风险提示</p>
+                                            <p class="text-yellow-700 text-sm">
+                                                投资有风险，决策需谨慎。投资者应当充分了解投资产品的风险特征，
+                                                审慎评估自身风险承受能力，理性做出投资决策。
+                                            </p>
+                                        </div>
+                                        
+                                        <div class="bg-blue-50 border-l-4 border-blue-400 p-4 mb-6">
+                                            <p class="font-medium text-blue-800 mb-2">市场风险</p>
+                                            <p class="text-blue-700 text-sm">
+                                                投资产品价格可能因市场利率、汇率、宏观经济等因素发生波动，
+                                                投资者可能面临本金损失的风险。
+                                            </p>
+                                        </div>
+                                        
+                                        <div class="bg-red-50 border-l-4 border-red-400 p-4">
+                                            <p class="font-medium text-red-800 mb-2">流动性风险</p>
+                                            <p class="text-red-700 text-sm">
+                                                部分投资产品可能存在流动性不足的风险，投资者可能无法在需要时
+                                                及时变现投资资产。
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 监管信息 -->
+                        <div id="info-regulatory" class="info-content hidden">
+                            <h3 class="text-2xl font-bold mb-6 text-dark">监管信息</h3>
+                            <div class="bg-white border border-gray-200 rounded-lg p-8">
+                                <h4 class="text-lg font-semibold mb-6 text-dark">监管机构</h4>
+                                <div class="space-y-6">
+                                    <div class="flex items-start">
+                                        <div class="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center text-primary text-xl mr-4 flex-shrink-0">
+                                            <i class="fa fa-building"></i>
+                                        </div>
+                                        <div>
+                                            <h5 class="font-semibold mb-2 text-dark">中国证券监督管理委员会</h5>
+                                            <p class="text-gray-600 text-sm mb-2">监管机构：中国证监会</p>
+                                            <p class="text-gray-600 text-sm">监管对象：证券公司及其子公司</p>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="flex items-start">
+                                        <div class="w-12 h-12 bg-secondary/10 rounded-lg flex items-center justify-center text-secondary text-xl mr-4 flex-shrink-0">
+                                            <i class="fa fa-shield"></i>
+                                        </div>
+                                        <div>
+                                            <h5 class="font-semibold mb-2 text-dark">行业自律组织</h5>
+                                            <p class="text-gray-600 text-sm mb-2">中国证券投资基金业协会</p>
+                                            <p class="text-gray-600 text-sm">中国证券业协会</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- 页脚 -->
+    <footer class="bg-dark text-white py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
+                <!-- 公司信息 -->
+                <div class="lg:col-span-2">
+                    <div class="flex items-center space-x-3 mb-6">
+                        <div class="w-10 h-10 bg-white rounded-lg flex items-center justify-center text-primary">
+                            <i class="fa fa-building text-xl"></i>
+                        </div>
+                        <span class="text-2xl font-bold">国泰君安证裕投资</span>
+                    </div>
+                    <p class="text-gray-400 mb-6 leading-relaxed max-w-md">
+                        国泰君安证裕投资有限公司是国泰海通证券股份有限公司的全资子公司，
+                        专注于股权投资、金融产品投资等业务，为客户提供专业的投资服务。
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="w-12 h-12 bg-primary/20 hover:bg-primary/30 rounded-full flex items-center justify-center transition-all duration-300 transform hover:scale-110">
+                            <i class="fa fa-weixin text-lg"></i>
+                        </a>
+                        <a href="#" class="w-12 h-12 bg-primary/20 hover:bg-primary/30 rounded-full flex items-center justify-center transition-all duration-300 transform hover:scale-110">
+                            <i class="fa fa-weibo text-lg"></i>
+                        </a>
+                        <a href="#" class="w-12 h-12 bg-primary/20 hover:bg-primary/30 rounded-full flex items-center justify-center transition-all duration-300 transform hover:scale-110">
+                            <i class="fa fa-linkedin text-lg"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- 快速链接 -->
+                <div>
+                    <h3 class="text-lg font-semibold mb-6 pb-2 border-b border-gray-800">快速链接</h3>
+                    <ul class="space-y-3">
+                        <li><a href="#" onclick="showPage('about')" class="text-gray-400 hover:text-white transition-colors inline-flex items-center">
+                            <i class="fa fa-angle-right mr-2 text-primary"></i>关于我们
+                        </a></li>
+                        <li><a href="#" onclick="showPage('business')" class="text-gray-400 hover:text-white transition-colors inline-flex items-center">
+                            <i class="fa fa-angle-right mr-2 text-primary"></i>公司业务
+                        </a></li>
+                        <li><a href="#" onclick="showPage('cases')" class="text-gray-400 hover:text-white transition-colors inline-flex items-center">
+                            <i class="fa fa-angle-right mr-2 text-primary"></i>投资案例
+                        </a></li>
+                        <li><a href="#" onclick="showPage('news')" class="text-gray-400 hover:text-white transition-colors inline-flex items-center">
+                            <i class="fa fa-angle-right mr-2 text-primary"></i>新闻动态
+                        </a></li>
+                        <li><a href="#" onclick="showPage('contact')" class="text-gray-400 hover:text-white transition-colors inline-flex items-center">
+                            <i class="fa fa-angle-right mr-2 text-primary"></i>联系我们
+                        </a></li>
+                    </ul>
+                </div>
+                
+                <!-- 联系信息 -->
+                <div>
+                    <h3 class="text-lg font-semibold mb-6 pb-2 border-b border-gray-800">联系我们</h3>
+                    <ul class="space-y-4 text-gray-400">
+                        <li class="flex items-start">
+                            <i class="fa fa-map-marker mt-1 mr-3 text-primary"></i>
+                            <span>上海市黄浦区广东路689号25楼</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fa fa-phone mr-3 text-primary"></i>
+                            021-38031809
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fa fa-envelope mr-3 text-primary"></i>
+                            contact@gtjazytz.com
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fa fa-flag mr-3 text-primary"></i>
+                            200001
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 mt-12 pt-8 text-center">
+                <div class="flex flex-wrap justify-center gap-6 mb-6">
+                    <a href="#" class="text-gray-400 hover:text-white transition-colors text-sm">隐私政策</a>
+                    <a href="#" class="text-gray-400 hover:text-white transition-colors text-sm">服务条款</a>
+                    <a href="#" class="text-gray-400 hover:text-white transition-colors text-sm">网站地图</a>
+                    <a href="#" class="text-gray-400 hover:text-white transition-colors text-sm">风险提示</a>
+                    <a href="#" class="text-gray-400 hover:text-white transition-colors text-sm">免责声明</a>
+                </div>
+                <p class="text-gray-500 text-sm">
+                    &copy; 2024 国泰君安证裕投资有限公司. 保留所有权利.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- 返回顶部按钮 -->
+    <button id="backToTop" class="fixed bottom-8 right-8 w-12 h-12 bg-primary text-white rounded-full shadow-lg hover:bg-primary/90 transition-all duration-300 transform hover:scale-110 hidden">
+        <i class="fa fa-chevron-up"></i>
+    </button>
+
+    <script>
+        // 页面切换功能
+        function showPage(pageId) {
+            // 隐藏所有页面
+            const pages = document.querySelectorAll('.page-content');
+            pages.forEach(page => page.classList.add('hidden'));
+            
+            // 显示指定页面
+            const targetPage = document.getElementById(`page-${pageId}`);
+            if (targetPage) {
+                targetPage.classList.remove('hidden');
+            }
+            
+            // 更新导航状态
+            const navItems = document.querySelectorAll('.nav-item');
+            navItems.forEach(item => {
+                item.classList.remove('nav-item-active');
+            });
+            
+            // 滚动到顶部
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // 移动端菜单切换
+        function toggleMobileMenu() {
+            const mobileMenu = document.getElementById('mobileMenu');
+            mobileMenu.classList.toggle('hidden');
+        }
+
+        // 关于我们页面标签切换
+        function showAboutTab(tabName) {
+            // 隐藏所有内容
+            const contents = document.querySelectorAll('.about-content');
+            contents.forEach(content => content.classList.add('hidden'));
+            
+            // 显示指定内容
+            const targetContent = document.getElementById(`about-${tabName}`);
+            if (targetContent) {
+                targetContent.classList.remove('hidden');
+            }
+            
+            // 更新标签状态
+            const tabs = document.querySelectorAll('.about-tab');
+            tabs.forEach(tab => {
+                tab.classList.remove('active', 'bg-white');
+            });
+            
+            event.target.closest('.about-tab').classList.add('active', 'bg-white');
+        }
+
+        // 公司业务页面标签切换
+        function showBusinessTab(tabName) {
+            // 隐藏所有内容
+            const contents = document.querySelectorAll('.business-content');
+            contents.forEach(content => content.classList.add('hidden'));
+            
+            // 显示指定内容
+            const targetContent = document.getElementById(`business-${tabName}`);
+            if (targetContent) {
+                targetContent.classList.remove('hidden');
+            }
+            
+            // 更新标签状态
+            const tabs = document.querySelectorAll('.business-tab');
+            tabs.forEach(tab => {
+                tab.classList.remove('active', 'bg-white');
+            });
+            
+            event.target.closest('.business-tab').classList.add('active', 'bg-white');
+        }
+
+        // 新闻动态页面标签切换
+        function showNewsTab(tabName) {
+            // 隐藏所有内容
+            const contents = document.querySelectorAll('.news-content');
+            contents.forEach(content => content.classList.add('hidden'));
+            
+            // 显示指定内容
+            const targetContent = document.getElementById(`news-${tabName}`);
+            if (targetContent) {
+                targetContent.classList.remove('hidden');
+            }
+            
+            // 更新标签状态
+            const tabs = document.querySelectorAll('.news-tab');
+            tabs.forEach(tab => {
+                tab.classList.remove('active', 'bg-white');
+            });
+            
+            event.target.closest('.news-tab').classList.add('active', 'bg-white');
+        }
+
+        // 信息公示页面标签切换
+        function showInfoTab(tabName) {
+            // 隐藏所有内容
+            const contents = document.querySelectorAll('.info-content');
+            contents.forEach(content => content.classList.add('hidden'));
+            
+            // 显示指定内容
+            const targetContent = document.getElementById(`info-${tabName}`);
+            if (targetContent) {
+                targetContent.classList.remove('hidden');
+            }
+            
+            // 更新标签状态
+            const tabs = document.querySelectorAll('.info-tab');
+            tabs.forEach(tab => {
+                tab.classList.remove('active', 'bg-white');
+            });
+            
+            event.target.closest('.info-tab').classList.add('active', 'bg-white');
+        }
+
+        // 返回顶部功能
+        function backToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // 监听滚动事件
+        window.addEventListener('scroll', () => {
+            const backToTopBtn = document.getElementById('backToTop');
+            if (window.pageYOffset > 300) {
+                backToTopBtn.classList.remove('hidden');
+            } else {
+                backToTopBtn.classList.add('hidden');
+            }
+        });
+
+        // 绑定返回顶部按钮事件
+        document.getElementById('backToTop').addEventListener('click', backToTop);
+
+        // 平滑滚动
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // 表单提交处理
+        document.querySelectorAll('form').forEach(form => {
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                alert('表单提交成功！我们会尽快与您联系。');
+            });
+        });
+
+        // 页面加载完成后的初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            // 默认显示首页
+            showPage('home');
+            
+            // 添加页面加载动画
+            document.body.style.opacity = '0';
+            document.body.style.transition = 'opacity 0.5s ease-in-out';
+            
+            setTimeout(() => {
+                document.body.style.opacity = '1';
+            }, 100);
+        });
+
+        // 添加导航栏滚动效果
+        window.addEventListener('scroll', () => {
+            const nav = document.querySelector('nav');
+            if (window.pageYOffset > 100) {
+                nav.classList.add('shadow-lg');
+            } else {
+                nav.classList.remove('shadow-lg');
+            }
+        });
+    </script>
+</body>
 </html>
