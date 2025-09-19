@@ -2,48 +2,48 @@
 
 ## 域名信息
 - 域名：zhengyutouzi.com
-- DNS服务器：ns1.judns.com 和 ns2.judns.com
+- DNS服务器：ns1.vercel-dns.com 和 ns2.vercel-dns.com（已成功更改为Vercel的DNS服务器）
 - 需要解析到：Vercel 平台上的网站
 
-## 所需DNS记录配置
+## 现有DNS配置检查
 
-您需要在judns.com的DNS管理界面添加以下记录：
+根据系统检查，您的域名目前配置情况：
+- 在域名管理平台（聚名网）上已成功更改为Vercel的官方DNS服务器（操作时间：2025-09-19 13:04:56）
+- 但Vercel平台当前仍显示域名使用的是聚名网的DNS服务器（ns1.judns.com和ns2.judns.com）
+- 这种情况是DNS记录全球传播的正常现象，需要时间完成同步
 
-### 1. A记录（主域名解析）
-```
-主机记录: @
-记录类型: A
-记录值: 76.76.21.21  或  104.244.43.228
-TTL: 默认为10分钟或选择最小值
-```
+## Vercel域名验证状态
 
-> 注意：以上两个IP地址都是Vercel的服务器IP，可以选择其中一个添加。
+当前Vercel平台显示的域名状态：
+- 预期的DNS服务器（Intended Nameservers）：ns1.vercel-dns.com和ns2.vercel-dns.com
+- 当前检测到的DNS服务器（Current Nameservers）：ns1.judns.com和ns2.judns.com
+- DNS服务器状态显示不匹配（有红色叉号标记）
+- 这是DNS全球传播过程中的正常现象，需要一定时间让Vercel检测到更改
 
-### 2. A记录（可选：www子域名）
-如果您希望www.zhengyutouzi.com也能访问网站，请添加：
-```
-主机记录: www
-记录类型: A
-记录值: 76.76.21.21  或  104.244.43.228
-TTL: 默认为10分钟或选择最小值
-```
+## 解决方案
 
-## 配置完成后的验证
+针对当前DNS服务器正在传播的情况，请按照以下步骤操作：
 
-DNS记录添加完成后，通常需要等待5-30分钟（取决于TTL设置）让DNS记录生效。
+1. **耐心等待DNS全球传播完成**：DNS服务器更改通常需要24-48小时才能在全球范围内完全生效
+2. **定期在Vercel平台检查状态**：登录Vercel控制台，查看zhengyutouzi.com域名的DNS验证状态
+3. **验证临时URL可访问性**：继续通过Vercel提供的临时URL访问网站，确保网站功能正常
+4. **必要时重新触发验证**：如果48小时后DNS状态仍未更新，可以重新运行`vercel --prod`命令
 
-您可以使用以下命令验证配置是否生效：
-```
-nslookup zhengyutouzi.com
-```
+## 验证方法
 
-如果看到返回的IP地址是您配置的Vercel IP地址，则说明配置成功。
+您可以使用以下方法验证域名配置和传播状态：
 
-## Vercel端验证
-
-Vercel会自动检测DNS配置是否正确。配置成功后，您将收到Vercel的验证邮件通知，此时域名将正式绑定到您的Vercel项目。
+1. **检查DNS服务器传播**：运行`nslookup -type=ns zhengyutouzi.com`确认返回的DNS服务器是否已更新为Vercel的服务器
+2. **检查DNS解析**：运行`nslookup zhengyutouzi.com`确认返回IP是否为Vercel服务器IP
+3. **访问最新临时URL**：https://vite-react-8e5li139o-kims-projects-005a1207.vercel.app 确认网站可以正常访问
+4. **检查Vercel项目状态**：登录Vercel控制台查看域名验证进度
+5. **检查域名管理平台**：确认在聚名网平台上DNS服务器更改状态显示为"已生效"
 
 ## 注意事项
-- 请确保您对zhengyutouzi.com域名拥有管理权限
-- 如果您之前配置过其他DNS记录，请谨慎操作，避免影响现有服务
-- DNS记录更新可能需要一定时间才能在全球范围内生效
+- DNS服务器更改通常需要24-48小时才能在全球范围内完全生效，请耐心等待
+- 在此期间，Vercel平台可能会显示DNS服务器不匹配的警告，这是正常现象
+- 请确保您的Vercel项目已正确部署（最近一次部署：2025-09-19）
+- 如有问题，可以重新运行`vercel --prod`命令重新部署项目并触发验证
+- 一旦DNS服务器传播完成，Vercel将自动完成域名验证并启用域名访问
+- 请不要在DNS传播期间再次更改DNS服务器设置，这可能会延长验证时间
+- 临时URL将一直可用，直到域名验证完成并正常工作
