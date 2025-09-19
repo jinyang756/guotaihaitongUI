@@ -159,6 +159,12 @@ function initVerification() {
         transform: translateY(-2px);
       }
       
+      .btn:disabled {
+        background: #6c757d;
+        cursor: not-allowed;
+        transform: none;
+      }
+      
       .error {
         color: #ff4d4f;
         font-size: 14px;
@@ -186,6 +192,18 @@ function initVerification() {
         font-size: 16px;
       }
       
+      .loading {
+        display: none;
+        text-align: center;
+        color: #fff;
+        margin-top: 20px;
+      }
+      
+      .loading i {
+        font-size: 20px;
+        animation: spin 1s linear infinite;
+      }
+      
       @keyframes fadeIn {
         from { opacity: 0; }
         to { opacity: 1; }
@@ -200,6 +218,11 @@ function initVerification() {
         0%, 100% { transform: translateX(0); }
         10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
         20%, 40%, 60%, 80% { transform: translateX(5px); }
+      }
+      
+      @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
       }
       
       @media (max-width: 480px) {
@@ -234,6 +257,10 @@ function initVerification() {
             <input type="text" id="enterpriseCode" placeholder="请输入4位数字企业码">
           </div>
           <div class="error" id="errorMsg">企业码错误，请重新输入</div>
+          <div class="loading" id="loading">
+            <i class="fas fa-spinner"></i>
+            <span>验证中...</span>
+          </div>
           <button class="btn" id="verifyBtn">验证登录</button>
           <div class="success" id="success">
             <i class="fas fa-check-circle"></i>
@@ -265,6 +292,17 @@ function initVerification() {
   const verifyBtn = document.getElementById('verifyBtn');
   const errorMsg = document.getElementById('errorMsg');
   const success = document.getElementById('success');
+  const loading = document.getElementById('loading');
+  
+  // 获取当前部署的基础URL，支持本地开发和生产环境
+  const getBaseUrl = () => {
+    // 本地开发环境
+    if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+      return window.location.origin;
+    }
+    // 生产环境
+    return window.location.origin;
+  };
   
   // 输入限制：只允许数字且最多4位
   enterpriseCodeInput.addEventListener('input', function() {
@@ -275,34 +313,77 @@ function initVerification() {
     errorMsg.style.display = 'none';
   });
   
-  // 验证按钮点击事件
-  verifyBtn.addEventListener('click', function() {
+  // 验证按钮点击事件 - 通过API调用进行验证
+  verifyBtn.addEventListener('click', async function() {
     const inputCode = enterpriseCodeInput.value.trim();
-    if (inputCode === '8265') {
-      errorMsg.style.display = 'none';
-      // 显示成功提示
-      document.querySelector('.input-group').style.display = 'none';
-      verifyBtn.style.display = 'none';
-      success.style.display = 'block';
-      // 模拟延迟后显示网站内容
-      setTimeout(function() {
-        verificationOverlay.style.opacity = '0';
-        verificationOverlay.style.transition = 'opacity 0.5s ease-out';
-        setTimeout(function() {
-          verificationOverlay.style.display = 'none';
-          // 确保网站内容可访问
-          document.querySelectorAll('.page-content').forEach(page => {
-            page.style.pointerEvents = 'auto';
-          });
-        }, 500);
-      }, 2000);
-    } else {
+    
+    // 基本验证
+    if (!inputCode || inputCode.length !== 4 || !/^\d+$/.test(inputCode)) {
+      errorMsg.textContent = '请输入4位数字企业码';
       errorMsg.style.display = 'block';
-      // 输入框抖动效果
-      enterpriseCodeInput.style.animation = 'shake 0.5s';
-      setTimeout(function() {
-        enterpriseCodeInput.style.animation = '';
-      }, 500);
+      return;
+    }
+    
+    // 显示加载状态
+    verifyBtn.disabled = true;
+    verifyBtn.textContent = '验证中...';
+    loading.style.display = 'block';
+    errorMsg.style.display = 'none';
+    
+    try {
+      // 调用Vercel Serverless Function进行验证
+      const baseUrl = getBaseUrl();
+      const response = await fetch(`${baseUrl}/api/verify`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ code: inputCode })
+      });
+      
+      const data = await response.json();
+      
+      if (data.success) {
+        // 验证成功
+        loading.style.display = 'none';
+        document.querySelector('.input-group').style.display = 'none';
+        verifyBtn.style.display = 'none';
+        success.style.display = 'block';
+        
+        // 模拟延迟后显示网站内容
+        setTimeout(function() {
+          verificationOverlay.style.opacity = '0';
+          verificationOverlay.style.transition = 'opacity 0.5s ease-out';
+          setTimeout(function() {
+            verificationOverlay.style.display = 'none';
+            // 确保网站内容可访问
+            document.querySelectorAll('.page-content').forEach(page => {
+              page.style.pointerEvents = 'auto';
+            });
+          }, 500);
+        }, 2000);
+      } else {
+        // 验证失败
+        loading.style.display = 'none';
+        errorMsg.textContent = data.message || '企业码错误，请重新输入';
+        errorMsg.style.display = 'block';
+        
+        // 输入框抖动效果
+        enterpriseCodeInput.style.animation = 'shake 0.5s';
+        setTimeout(function() {
+          enterpriseCodeInput.style.animation = '';
+        }, 500);
+      }
+    } catch (error) {
+      // 网络错误处理
+      console.error('验证请求失败:', error);
+      loading.style.display = 'none';
+      errorMsg.textContent = '验证过程中出现错误，请检查网络连接后重试';
+      errorMsg.style.display = 'block';
+    } finally {
+      // 恢复按钮状态
+      verifyBtn.disabled = false;
+      verifyBtn.textContent = '验证登录';
     }
   });
   
