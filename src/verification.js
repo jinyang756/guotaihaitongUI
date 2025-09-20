@@ -1,4 +1,42 @@
 // 验证逻辑
+// 在页面加载前立即执行，确保内容不会被显示
+(function() {
+  // 检查是否已验证（包含过期检查）
+  function isVerified() {
+    const verified = localStorage.getItem('companyVerified') === 'true';
+    const verifiedAt = localStorage.getItem('verifiedAt');
+    
+    // 检查验证是否过期（7天）
+    const weekInMilliseconds = 7 * 24 * 60 * 60 * 1000;
+    const isExpired = verifiedAt && (new Date().getTime() - parseInt(verifiedAt)) > weekInMilliseconds;
+    
+    return verified && !isExpired;
+  }
+
+  // 立即隐藏页面内容，确保在验证前内容完全不可见
+  if (!isVerified()) {
+    // 创建一个全局的样式覆盖层，确保在DOM加载前内容就被隐藏
+    const style = document.createElement('style');
+    style.textContent = `
+      /* 全局内容隐藏 - 优先级最高 */
+      body > *:not(#verification-overlay):not(#verification-style) {
+        display: none !important;
+        visibility: hidden !important;
+        opacity: 0 !important;
+      }
+      
+      /* 确保验证覆盖层可以正常显示 */
+      #verification-overlay {
+        display: flex !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+      }
+    `;
+    style.id = 'verification-style';
+    document.head.appendChild(style);
+  }
+})();
+
 console.log('Verification script loaded');
 
 function initVerification() {
@@ -6,7 +44,8 @@ function initVerification() {
   // 创建验证覆盖层
   const verificationOverlay = document.createElement('div');
   verificationOverlay.id = 'verification-overlay';
-  verificationOverlay.className = 'fixed inset-0 bg-gradient-to-br from-primary to-dark z-50 flex items-center justify-center';
+  verificationOverlay.className = 'fixed inset-0 bg-gradient-to-br from-primary to-dark z-[100] flex items-center justify-center';
+  verificationOverlay.style.animation = 'fadeIn 0.5s ease-out';
   
   // 设置验证覆盖层的HTML内容
   verificationOverlay.innerHTML = `
@@ -228,6 +267,16 @@ function initVerification() {
         100% { transform: rotate(360deg); }
       }
       
+      @keyframes contentFadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+      }
+      
+      @keyframes slideUp {
+        from { transform: translateY(20px); opacity: 0; }
+        to { transform: translateY(0); opacity: 1; }
+      }
+      
       @media (max-width: 480px) {
         .verification-card {
           padding: 30px 20px;
@@ -257,7 +306,7 @@ function initVerification() {
           
           <div class="input-group">
             <i class="fas fa-lock"></i>
-            <input type="text" id="enterpriseCode" placeholder="请输入4位数字企业码">
+            <input type="text" id="enterpriseCode" placeholder="请输入4位数字企业码" autocomplete="one-time-code">
           </div>
           <div class="error" id="errorMsg">企业码错误，请重新输入</div>
           <div class="loading" id="loading">
@@ -316,6 +365,16 @@ function initVerification() {
     errorMsg.style.display = 'none';
   });
   
+  // 添加键盘事件处理
+  enterpriseCodeInput.addEventListener('keydown', function(e) {
+    // 允许退格键、Tab键和Enter键
+    if (e.key === 'Backspace' || e.key === 'Tab' || e.key === 'Enter') return;
+    // 允许数字键
+    if (/^[0-9]$/.test(e.key)) return;
+    // 阻止其他按键
+    e.preventDefault();
+  });
+  
   // 验证按钮点击事件 - 添加了本地开发环境的兼容性支持
   verifyBtn.addEventListener('click', async function() {
     const inputCode = enterpriseCodeInput.value.trim();
@@ -324,6 +383,11 @@ function initVerification() {
     if (!inputCode || inputCode.length !== 4 || !/^\d+$/.test(inputCode)) {
       errorMsg.textContent = '请输入4位数字企业码';
       errorMsg.style.display = 'block';
+      // 添加抖动动画
+      enterpriseCodeInput.style.animation = 'shake 0.5s';
+      setTimeout(() => {
+        enterpriseCodeInput.style.animation = '';
+      }, 500);
       return;
     }
     
@@ -348,15 +412,30 @@ function initVerification() {
         verifyBtn.style.display = 'none';
         success.style.display = 'block';
         
+        // 存储验证状态到本地存储
+        localStorage.setItem('companyVerified', 'true');
+        localStorage.setItem('verifiedAt', new Date().getTime().toString());
+        
         // 模拟延迟后显示网站内容
         setTimeout(function() {
           verificationOverlay.style.opacity = '0';
-          verificationOverlay.style.transition = 'opacity 0.5s ease-out';
+          verificationOverlay.style.transition = 'opacity 0.5s ease-out, transform 0.5s ease-out';
+          verificationOverlay.style.transform = 'scale(0.9)';
+          
           setTimeout(function() {
-            verificationOverlay.style.display = 'none';
-            // 确保网站内容可访问
-            document.querySelectorAll('.page-content').forEach(page => {
-              page.style.pointerEvents = 'auto';
+            // 移除验证覆盖层
+            verificationOverlay.remove();
+            
+            // 移除全局隐藏样式
+            const style = document.getElementById('verification-style');
+            if (style) {
+              style.remove();
+            }
+            
+            // 显示页面内容并添加淡入动画
+            document.body.style.animation = 'contentFadeIn 0.8s ease-out';
+            document.body.querySelectorAll('*').forEach(el => {
+              el.style.animation = 'slideUp 0.5s ease-out 0.2s forwards';
             });
           }, 500);
         }, 2000);
@@ -412,24 +491,39 @@ function initVerification() {
     }
   });
   
-  // 阻止网站内容被点击
-  document.querySelectorAll('.page-content').forEach(page => {
-    page.style.pointerEvents = 'none';
-  });
+  // 自动聚焦输入框
+  enterpriseCodeInput.focus();
 }
 
-// 页面加载完成后初始化验证
-console.log('Verification script loaded');
+// 检查是否已验证（包含过期检查）
+function checkVerificationStatus() {
+  const verified = localStorage.getItem('companyVerified') === 'true';
+  const verifiedAt = localStorage.getItem('verifiedAt');
+  
+  // 检查验证是否过期（7天）
+  const weekInMilliseconds = 7 * 24 * 60 * 60 * 1000;
+  const isExpired = verifiedAt && (new Date().getTime() - parseInt(verifiedAt)) > weekInMilliseconds;
+  
+  return verified && !isExpired;
+}
 
 // 确保DOM完全加载后再初始化
 function initWhenReady() {
+  // 如果已经验证过且未过期，则移除隐藏样式并直接显示内容
+  if (checkVerificationStatus()) {
+    const style = document.getElementById('verification-style');
+    if (style) {
+      style.remove();
+    }
+    return;
+  }
+  
   if (document.readyState === 'loading') {
     console.log('Waiting for DOMContentLoaded event');
     document.addEventListener('DOMContentLoaded', initVerification);
   } else {
     console.log('Document already loaded, initializing verification');
-    // 添加一个小延迟确保所有元素都已渲染
-    setTimeout(initVerification, 500);
+    initVerification();
   }
 }
 
