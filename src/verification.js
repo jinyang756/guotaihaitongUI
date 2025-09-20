@@ -2,19 +2,19 @@
 // 在页面加载前立即执行，确保内容不会被显示
 (function() {
   // 检查是否已验证（包含过期检查）
-  function isVerified() {
+  function checkVerificationStatus() {
     const verified = localStorage.getItem('companyVerified') === 'true';
     const verifiedAt = localStorage.getItem('verifiedAt');
     
-    // 检查验证是否过期（7天）
-    const weekInMilliseconds = 7 * 24 * 60 * 60 * 1000;
-    const isExpired = verifiedAt && (new Date().getTime() - parseInt(verifiedAt)) > weekInMilliseconds;
+    // 检查验证是否过期（24小时）
+    const dayInMilliseconds = 24 * 60 * 60 * 1000;
+    const isExpired = verifiedAt && (new Date().getTime() - parseInt(verifiedAt)) > dayInMilliseconds;
     
     return verified && !isExpired;
   }
 
   // 立即隐藏页面内容，确保在验证前内容完全不可见
-  if (!isVerified()) {
+  if (!checkVerificationStatus()) {
     // 创建一个全局的样式覆盖层，确保在DOM加载前内容就被隐藏
     const style = document.createElement('style');
     style.textContent = `
@@ -30,6 +30,13 @@
         display: flex !important;
         visibility: visible !important;
         opacity: 1 !important;
+      }
+      
+      /* 移动端优化 - 确保在小屏幕上有更好的可视性 */
+      @media (max-width: 480px) {
+        html, body {
+          font-size: 16px;
+        }
       }
     `;
     style.id = 'verification-style';
@@ -279,20 +286,43 @@ function initVerification() {
       
       @media (max-width: 480px) {
         .verification-card {
-          padding: 30px 20px;
+          padding: 40px 25px;
+          border-radius: 12px 12px 0 0;
         }
         
         .strategy-card {
-          padding: 20px 15px;
+          padding: 25px 20px;
+          border-radius: 0 0 12px 12px;
         }
         
         .logo h1 {
-          font-size: 22px;
+          font-size: 24px;
+          line-height: 1.3;
+        }
+        
+        .logo p {
+          font-size: 14px;
         }
         
         .strategy-slogan .english,
         .strategy-slogan .chinese {
-          font-size: 13px;
+          font-size: 14px;
+          line-height: 1.6;
+        }
+        
+        .main-container {
+          min-width: 90%;
+          margin: 0 15px;
+        }
+        
+        .input-group input {
+          font-size: 18px;
+          padding: 16px 16px 16px 45px;
+        }
+        
+        .btn {
+          font-size: 18px;
+          padding: 16px;
         }
       }
     </style>
@@ -495,14 +525,14 @@ function initVerification() {
   enterpriseCodeInput.focus();
 }
 
-// 检查是否已验证（包含过期检查）
+// 检查是否已验证（包含过期检查）- 与顶部函数保持一致
 function checkVerificationStatus() {
   const verified = localStorage.getItem('companyVerified') === 'true';
   const verifiedAt = localStorage.getItem('verifiedAt');
   
-  // 检查验证是否过期（7天）
-  const weekInMilliseconds = 7 * 24 * 60 * 60 * 1000;
-  const isExpired = verifiedAt && (new Date().getTime() - parseInt(verifiedAt)) > weekInMilliseconds;
+  // 检查验证是否过期（24小时）
+  const dayInMilliseconds = 24 * 60 * 60 * 1000;
+  const isExpired = verifiedAt && (new Date().getTime() - parseInt(verifiedAt)) > dayInMilliseconds;
   
   return verified && !isExpired;
 }
